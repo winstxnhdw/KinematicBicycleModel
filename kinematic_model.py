@@ -7,7 +7,6 @@ class KinematicBicycleModel():
 
     def __init__(self, x=0.0, y=0.0, yaw=0.0, vx=0.0, vy=0.0, omega=0.0):
 
-
         # Class variables to use whenever within the class when necessary
         self.x = x
         self.y = y
@@ -33,7 +32,7 @@ class KinematicBicycleModel():
 
     def linear_model(self):
 
-        rospy.loginfo("Computing with the kinematic bicycle model")
+        print("Computing with the kinematic bicycle model")
 
         # Compute the local velocity in the x-axis
         f_load = self.vx * (self.c_r + self.c_a * self.vx)
