@@ -60,8 +60,7 @@ class KinematicBicycleModel():
 
 def main():
 
-    # Initialise the class
-    bicycle_model = NonLinearBicycleModel(0, 0, 0, 0, 0, 0)
+    print("This is script is not meant to be executable, and should be used as a library.")
 
 if __name__=="__main__":
     main()
