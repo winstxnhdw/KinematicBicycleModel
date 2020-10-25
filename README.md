@@ -1,5 +1,5 @@
 # Kinematic Bicycle Model
-![KinematicBicycleModel](https://github.com/winstxnhdw/KinematicBicycleModel/blob/main/screenshots/KinematicBicycleModel.png?raw=true)
+![KinematicBicycleModel](https://github.com/winstxnhdw/KinematicBicycleModel/blob/main/screenshots/KinematicBicycleModel.png?align=center)
 
 ## Abstract
 A python library for the Kinematic Bicycle model.
