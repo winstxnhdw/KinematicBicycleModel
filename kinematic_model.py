@@ -57,6 +57,8 @@ class KinematicBicycleModel():
         self.y += self.y_dot * self.dt
         self.yaw += self.omega * self.dt
         self.yaw = normalise_angle(self.yaw)
+        
+        return self.x, self.y, self.yaw
 
 def main():
 
