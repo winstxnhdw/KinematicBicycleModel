@@ -1,6 +1,6 @@
 # Kinematic Bicycle Model
 <p align="center">
-  <src="https://github.com/winstxnhdw/KinematicBicycleModel/blob/main/screenshots/KinematicBicycleModel.png?raw=true">
+  <img width="460" height="300" src="https://github.com/winstxnhdw/KinematicBicycleModel/blob/main/screenshots/KinematicBicycleModel.png?raw=true">
 </p>
    
 ## Abstract
