@@ -30,7 +30,7 @@ class KinematicBicycleModel():
         self.c_r = 0.0
         self.c_a = 0.0
 
-    def linear_model(self):
+    def kinematic_model(self):
 
         print("Computing with the kinematic bicycle model")
 
