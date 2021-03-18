@@ -7,19 +7,26 @@ class KinematicBicycleModel():
 
     def __init__(self, x=0.0, y=0.0, yaw=0.0, v=0.0, throttle=0.0, delta=0.0, L=1.0, max_steer=0.7, dt=0.05, c_r=0.0, c_a=0.0):
         """
-        Kinematic bicycle model
+        2D Kinematic Bicycle Model
 
-        :param x:           vehicle's x-coordinate
-        :param y:           vehicle's y-coordinate
-        :param yaw:         vehicle's heading [rad]
-        :param v:          vehicle's velocity in the x-axis [m/s]
-        :param throttle:    vehicle's forward speed [m/s]
-        :param delta:       vehicle's steering angle [rad]
-        :param L:           vehicle's wheelbase [m]
-        :param max_steer:   vehicle's steering limits [rad]
-        :param c_r:         vehicle's aerodynamic coefficient
-        :param c_a:         vehicle's coefficient of resistance
-        :param dt:          discrete time period [s]
+        :param x:           (float) vehicle's x-coordinate
+        :param y:           (float) vehicle's y-coordinate
+        :param yaw:         (float) vehicle's heading [rad]
+        :param v:           (float) vehicle's velocity in the x-axis [m/s]
+        :param throttle:    (float) vehicle's forward speed [m/s]
+        :param delta:       (float) vehicle's steering angle [rad]
+        :param L:           (float) vehicle's wheelbase [m]
+        :param max_steer:   (float) vehicle's steering limits [rad]
+        :param c_r:         (float) vehicle's aerodynamic coefficient
+        :param c_a:         (float) vehicle's coefficient of resistance
+        :param dt:          (float) discrete time period [s]
+
+        :return x:          (float) vehicle's x-coordinate
+        :return y:          (float) vehicle's y-coordinate
+        :return yaw:        (float) vehicle's heading [rad]
+        :return v:          (float) vehicle's velocity in the x-axis [m/s]
+        :return delta:      (float) vehicle's steering angle [rad]
+        :return omega:      (float) vehicle's angular velocity [rad/s]
         """
 
         self.x = x
@@ -64,7 +71,7 @@ class KinematicBicycleModel():
         self.yaw += omega * self.dt
         self.yaw = normalise_angle(self.yaw)
         
-        return self.x, self.y, self.yaw, self.v, self.delta, self.omega
+        return self.x, self.y, self.yaw, self.v, self.delta, omega
 
 def main():
 
