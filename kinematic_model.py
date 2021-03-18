@@ -5,60 +5,66 @@ from normalise_angle import normalise_angle
 
 class KinematicBicycleModel():
 
-    def __init__(self, x=0.0, y=0.0, yaw=0.0, vx=0.0, vy=0.0, omega=0.0):
+    def __init__(self, x=0.0, y=0.0, yaw=0.0, v=0.0, throttle=0.0, delta=0.0, L=1.0, max_steer=0.7, dt=0.05, c_r=0.0, c_a=0.0):
+        """
+        Kinematic bicycle model
 
-        # Class variables to use whenever within the class when necessary
+        :param x:           vehicle's x-coordinate
+        :param y:           vehicle's y-coordinate
+        :param yaw:         vehicle's heading [rad]
+        :param v:          vehicle's velocity in the x-axis [m/s]
+        :param throttle:    vehicle's forward speed [m/s]
+        :param delta:       vehicle's steering angle [rad]
+        :param L:           vehicle's wheelbase [m]
+        :param max_steer:   vehicle's steering limits [rad]
+        :param c_r:         vehicle's aerodynamic coefficient
+        :param c_a:         vehicle's coefficient of resistance
+        :param dt:          discrete time period [s]
+        """
+
         self.x = x
         self.y = y
         self.yaw = yaw
-        self.vx = vx
-        self.vy = vy
-        self.omega = omega
+        self.v = v
 
-        self.x_dot = 0.0
-        self.y_dot = 0.0
+        self.throttle = throttle
+        self.delta = delta
 
-        self.throttle = 0.0
-        self.delta = 0.0
-
-        self.dt = 0.1
+        self.dt = dt
         
-        self.L = 0.0
-        self.Lf = 0.0
-        self.Lr = self.L - self.Lf
+        self.L = L
+        self.max_steer = max_steer
 
-        self.c_r = 0.0
-        self.c_a = 0.0
+        self.c_r = c_r
+        self.c_a = c_a
 
     def kinematic_model(self):
 
-        print("Computing with the kinematic bicycle model")
-
         # Compute the local velocity in the x-axis
-        f_load = self.vx * (self.c_r + self.c_a * self.vx)
-        self.vx += self.dt * (self.throttle - f_load)
+        f_load = self.v * (self.c_r + self.c_a * self.v)
+        self.v += self.dt * (self.throttle - f_load)
 
         # Compute radius and angular velocity of the kinematic bicycle model
         self.delta = np.clip(self.delta, -self.max_steer, self.max_steer)
 
         if self.delta == 0.0:
-            self.omega = 0.0
+            omega = 0.0
 
         else:
             R = self.L / np.tan(self.delta)
-            self.omega = self.vx / R
+            omega = self.v / R
 
         # Compute the state change rate
-        self.x_dot = self.vx * np.cos(self.yaw)
-        self.y_dot = self.vx * np.sin(self.yaw)
+        x_dot = self.v * np.cos(self.yaw)
+        y_dot = self.v * np.sin(self.yaw)
 
         # Compute the final state using the discrete time model
-        self.x += self.x_dot * self.dt
-        self.y += self.y_dot * self.dt
-        self.yaw += self.omega * self.dt
+        self.x += x_dot * self.dt
+        self.y += y_dot * self.dt
+        self.yaw += omega * self.dt
         self.yaw = normalise_angle(self.yaw)
         
-        return self.x, self.y, self.yaw
+        return self.x, self.y, self.yaw, self.v, self.delta, self.omega
 
 def main():
 
