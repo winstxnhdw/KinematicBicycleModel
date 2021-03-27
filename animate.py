@@ -16,6 +16,8 @@ class Simulation:
 
         self.dt = 1/fps
         self.map_size = 50
+        self.frames = 10000
+        self.loop = False
 
 class Path:
 
@@ -56,6 +58,8 @@ class Car:
         self.ksoft = 1.0
         self.cg2frontaxle = self.L/2
 
+        self.xtrackerr = None
+
     def drive(self):
         
         self.tracker = PathTracker(self.k, self.ksoft, self.max_steer, self.cg2frontaxle, self.throttle, self.x, self.y, self.yaw, self.px, self.py, self.pyaw)
@@ -71,7 +75,6 @@ def main():
     path = Path()
     car = Car(sim, path)
 
-    frames = 1000
     interval = sim.dt * 10**(-3)
 
     fig = plt.figure()
@@ -94,7 +97,7 @@ def main():
         plt.title('{} m/s'.format(np.around(car.v, 2)), loc='right')
         return vehicle,
 
-    anim = FuncAnimation(fig, animate, frames=frames, interval=interval)
+    anim = FuncAnimation(fig, animate, frames=sim.frames, interval=interval, repeat=sim.loop)
 
     plt.grid()
     plt.show()
