@@ -1,5 +1,7 @@
 # Kinematic Bicycle Model
-![KinematicBicycleModel](https://github.com/winstxnhdw/KinematicBicycleModel/blob/main/screenshots/KinematicBicycleModel.png?raw=true)
+<div align="center">
+	<img src="resources/animation.gif" />
+</div>
    
 ## Abstract
 A python library for the Kinematic Bicycle model.
@@ -19,3 +21,8 @@ $ pip install -r requirements.txt
 # Play the animation
 $ python animation.py
 ```
+
+## Concept
+<div align="center">
+	<img src="resources/KinematicBicycleModel.png" />
+</div>
