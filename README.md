@@ -6,12 +6,15 @@ A python library for the Kinematic Bicycle model.
 
 ## Requirements
 ```bash
-# Install requirements.txt
-$ pip install -r requirements.txt
+# Install NumPy
+$ pip install numpy
 ```
 
-## Usage
+## Usage (for Animation)
 ```bash
+# Install requirements.txt
+$ pip install -r requirements.txt
+
 # Play the animation
 $ python animation.py
 ```
