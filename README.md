@@ -6,7 +6,7 @@
 ## Abstract
 A python library for the Kinematic Bicycle model.
 
-```python
+```yaml
 :param x:           (float) vehicle's x-coordinate
 :param y:           (float) vehicle's y-coordinate
 :param yaw:         (float) vehicle's heading [rad]
