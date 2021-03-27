@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import os
 
 from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
@@ -41,8 +42,8 @@ class Car:
         self.throttle = 100.0
         self.delta = 0.0
         self.omega = 0.0
-        self.L = 2.0
-        self.max_steer = np.deg2rad(160)
+        self.L = 3
+        self.max_steer = np.deg2rad(33)
         self.dt = sim_params.dt
         self.c_r = 0.01
         self.c_a = 2.0
@@ -51,14 +52,18 @@ class Car:
         self.py = path_params.py
         self.pyaw = path_params.pyaw
 
-        self.k = 100.0
+        self.k = 10.0
         self.ksoft = 1.0
         self.cg2frontaxle = self.L/2
 
     def drive(self):
         
         self.tracker = PathTracker(self.k, self.ksoft, self.max_steer, self.cg2frontaxle, self.throttle, self.x, self.y, self.yaw, self.px, self.py, self.pyaw)
-        self.throttle, self.delta = self.tracker.stanley_control()
+        self.throttle, self.delta, error, heading_err, heading = self.tracker.stanley_control()
+        os.system('cls')
+        print(error)
+        print(heading_err)
+        print(heading)
         self.kbm = KinematicBicycleModel(self.x, self.y, self.yaw, self.v, self.throttle, self.delta, self.L, self.max_steer, self.dt, self.c_r, self.c_a)
         self.x, self.y, self.yaw, self.v, self.delta, self.omega = self.kbm.kinematic_model()
 
@@ -73,17 +78,17 @@ def main():
 
     fig = plt.figure()
     ax = plt.axes()
-    vehicle, = ax.plot(car.x, car.y, 'ro')
+    vehicle, = ax.plot(car.x, car.y, 'ro', markersize=15)
     ax.plot(path.px, path.py)
     ax.set_aspect('equal', adjustable='box')
 
-    annotation = ax.annotate('{}, {}'.format(car.x, car.y), xy=(car.x, car.y + 5))
+    annotation = ax.annotate('{}, {}'.format(car.x, car.y), xy=(car.x, car.y + 5), annotation_clip=False)
 
     def animate(i):
 
-        ax.annotate
         ax.set_xlim(car.x - sim.map_size, car.x + sim.map_size)
         ax.set_ylim(car.y - sim.map_size, car.y + sim.map_size)
+        ax.annotate
         car.drive()
         vehicle.set_data(car.x, car.y)
         annotation.set_text('{}, {}'.format(np.around(car.x, 1), np.around(car.y, 1)))
