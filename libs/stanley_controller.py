@@ -63,7 +63,7 @@ class PathTracker:
         elif sigma_t <= -self.max_steer:
             sigma_t = -self.max_steer
 
-        return self.target_vel, sigma_t, crosstrack_term, heading_term, sigma_t
+        return self.target_vel, sigma_t, crosstrack_term
 
 def main():
 
