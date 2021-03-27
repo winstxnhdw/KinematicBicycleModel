@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-from normalise_angle import normalise_angle
+from libs.normalise_angle import normalise_angle
 
 class KinematicBicycleModel():
 
