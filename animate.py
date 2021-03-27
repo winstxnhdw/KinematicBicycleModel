@@ -2,11 +2,13 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import random as rand
 
 from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
 from libs.cubic_spline_planner import calc_spline_course
 from libs.stanley_controller import PathTracker
+from libs.car_description import Description, plot_car
 
 class Simulation:
 
@@ -41,10 +43,10 @@ class Car:
         self.y = 0
         self.yaw = 0.0
         self.v = 0.0
-        self.throttle = 100.0
+        self.throttle = 100
         self.delta = 0.0
         self.omega = 0.0
-        self.L = 3
+        self.L = 2.5
         self.max_steer = np.deg2rad(33)
         self.dt = sim_params.dt
         self.c_r = 0.01
@@ -56,16 +58,19 @@ class Car:
 
         self.k = 10.0
         self.ksoft = 1.0
-        self.cg2frontaxle = self.L/2
 
         self.xtrackerr = None
+        self.target_id = None
 
     def drive(self):
         
-        self.tracker = PathTracker(self.k, self.ksoft, self.max_steer, self.cg2frontaxle, self.throttle, self.x, self.y, self.yaw, self.px, self.py, self.pyaw)
-        self.throttle, self.delta, xtrackerr = self.tracker.stanley_control()
+        self.throttle = rand.uniform(80, 200)
+        self.tracker = PathTracker(self.k, self.ksoft, self.max_steer, self.L, self.throttle, self.x, self.y, self.yaw, self.px, self.py, self.pyaw)
+        self.throttle, self.delta, xtrackerr, target_id = self.tracker.stanley_control()
         self.kbm = KinematicBicycleModel(self.x, self.y, self.yaw, self.v, self.throttle, self.delta, self.L, self.max_steer, self.dt, self.c_r, self.c_a)
         self.x, self.y, self.yaw, self.v, self.delta, self.omega = self.kbm.kinematic_model()
+
+        self.target_id = target_id
         os.system('cls')
         print("Cross-track error: {}".format(xtrackerr))
 
@@ -75,31 +80,44 @@ def main():
     path = Path()
     car = Car(sim, path)
 
-    interval = sim.dt * 10**(-3)
+    interval = sim.dt * 10**3
 
     fig = plt.figure()
     ax = plt.axes()
-    vehicle, = ax.plot(car.x, car.y, 'ro', markersize=15)
-    ax.plot(path.px, path.py)
     ax.set_aspect('equal', adjustable='box')
-
-    annotation = ax.annotate('{}, {}'.format(car.x, car.y), xy=(car.x, car.y + 5), annotation_clip=False)
+    road = plt.Circle((0, 0), 50, color='gray', fill=False, linewidth=30)
 
     def animate(i):
 
+        # Clear
+        plt.cla()
+
+        # Camera tracks car
         ax.set_xlim(car.x - sim.map_size, car.x + sim.map_size)
         ax.set_ylim(car.y - sim.map_size, car.y + sim.map_size)
-        ax.annotate
+
+        # Redraw road
+        ax.add_patch(road)
+
+        # Drive and draw car
         car.drive()
-        vehicle.set_data(car.x, car.y)
+        ax.plot(path.px, path.py, '--', color='gold')
+        plot_car(car.x, car.y, car.yaw, car.delta)
+
+        # Show car's target
+        ax.plot(path.px[car.target_id], path.py[car.target_id], '+r')
+
+        # Annotate car's coordinate above car
+        annotation = ax.annotate('{}, {}'.format(car.x, car.y), xy=(car.x, car.y + 5), color='black', annotation_clip=False)
         annotation.set_text('{}, {}'.format(np.around(car.x, 1), np.around(car.y, 1)))
         annotation.set_position((car.x, car.y + 5))
-        plt.title('{} m/s'.format(np.around(car.v, 2)), loc='right')
-        return vehicle,
+
+        plt.grid()
+        plt.xlabel('Speed: {} m/s'.format(np.around(car.v, 2)), loc='left')
+        plt.title('{} Frames'.format(i), loc='right')
 
     anim = FuncAnimation(fig, animate, frames=sim.frames, interval=interval, repeat=sim.loop)
 
-    plt.grid()
     plt.show()
 
 if __name__ == '__main__':

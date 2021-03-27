@@ -4,13 +4,13 @@ from libs.normalise_angle import normalise_angle
 
 class PathTracker:
 
-    def __init__(self, control_gain, softening_gain, steering_limits, centreofgravity_to_frontaxle, target_vel, x, y, yaw, path_x, path_y, path_yaw):
+    def __init__(self, control_gain, softening_gain, steering_limits, wheelbase, target_vel, x, y, yaw, path_x, path_y, path_yaw):
         
         # Class variables to use whenever within the class when necessary
         self.k = control_gain
         self.ksoft = softening_gain
         self.max_steer = steering_limits
-        self.cg2frontaxle = centreofgravity_to_frontaxle
+        self.L = wheelbase
 
         self.x = x
         self.y = y
@@ -28,8 +28,8 @@ class PathTracker:
         ''' Calculates the target index and each corresponding error '''
 
         # Calculate position of the front axle
-        fx = self.x + self.cg2frontaxle * np.cos(self.yaw)
-        fy = self.y + self.cg2frontaxle * np.sin(self.yaw)
+        fx = self.x + self.L * np.cos(self.yaw)
+        fy = self.y + self.L * np.sin(self.yaw)
 
         dx = [fx - icx for icx in self.cx] # Find the x-axis of the front axle relative to the path
         dy = [fy - icy for icy in self.cy] # Find the y-axis of the front axle relative to the path
@@ -46,12 +46,12 @@ class PathTracker:
 
         self.target_idx = target_idx
 
-        return crosstrack_error, heading_term
+        return crosstrack_error, heading_term, target_idx
 
     # Stanley controller determines the appropriate steering angle
     def stanley_control(self):
 
-        crosstrack_error, heading_term = self.target_index_calculator()
+        crosstrack_error, heading_term, target_id = self.target_index_calculator()
         crosstrack_term = np.arctan2((self.k * crosstrack_error), (self.ksoft + self.target_vel))
         
         sigma_t = crosstrack_term + heading_term
@@ -63,7 +63,7 @@ class PathTracker:
         elif sigma_t <= -self.max_steer:
             sigma_t = -self.max_steer
 
-        return self.target_vel, sigma_t, crosstrack_term
+        return self.target_vel, sigma_t, crosstrack_term, target_id
 
 def main():
 
