@@ -6,6 +6,27 @@
 ## Abstract
 A python library for the Kinematic Bicycle model.
 
+```python
+:param x:           (float) vehicle's x-coordinate
+:param y:           (float) vehicle's y-coordinate
+:param yaw:         (float) vehicle's heading [rad]
+:param v:           (float) vehicle's velocity in the x-axis [m/s]
+:param throttle:    (float) vehicle's forward speed [m/s]
+:param delta:       (float) vehicle's steering angle [rad]
+:param L:           (float) vehicle's wheelbase [m]
+:param max_steer:   (float) vehicle's steering limits [rad]
+:param c_r:         (float) vehicle's aerodynamic coefficient
+:param c_a:         (float) vehicle's coefficient of resistance
+:param dt:          (float) discrete time period [s]
+
+:return x:          (float) vehicle's x-coordinate
+:return y:          (float) vehicle's y-coordinate
+:return yaw:        (float) vehicle's heading [rad]
+:return v:          (float) vehicle's velocity in the x-axis [m/s]
+:return delta:      (float) vehicle's steering angle [rad]
+:return omega:      (float) vehicle's angular velocity [rad/s]
+```
+
 ## Requirements
 ```bash
 # Install NumPy
