@@ -8,7 +8,7 @@ from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
 from libs.cubic_spline_planner import calc_spline_course
 from libs.stanley_controller import PathTracker
-from libs.car_description import Description, plot_car
+from libs.car_description import Description
 
 class Simulation:
 
@@ -18,7 +18,7 @@ class Simulation:
 
         self.dt = 1/fps
         self.map_size = 50
-        self.frames = 10000
+        self.frames = 6000
         self.loop = False
 
 class Path:
@@ -31,7 +31,7 @@ class Path:
 
         x = df['X-axis'].values.tolist()
         y = df['Y-axis'].values.tolist()
-        ds = 0.1
+        ds = 0.05
 
         self.px, self.py, self.pyaw = calc_spline_course(x, y, ds)
 
@@ -39,6 +39,7 @@ class Car:
 
     def __init__(self, sim_params, path_params):
 
+        # Model parameters
         self.x = 40
         self.y = 0
         self.yaw = 0.0
@@ -52,15 +53,22 @@ class Car:
         self.c_r = 0.01
         self.c_a = 2.0
 
+        # Tracker parameters
         self.px = path_params.px
         self.py = path_params.py
         self.pyaw = path_params.pyaw
-
         self.k = 10.0
         self.ksoft = 1.0
-
         self.xtrackerr = None
         self.target_id = None
+
+        # Description parameters
+        self.length = 4.5
+        self.width = 2.0
+        self.rear2wheel = 1.0
+        self.wheel_dia = 0.15 * 2
+        self.wheel_width = 0.2
+        self.tread = 0.7
 
     def drive(self):
         
@@ -79,6 +87,7 @@ def main():
     sim = Simulation()
     path = Path()
     car = Car(sim, path)
+    desc = Description(car.length, car.width, car.rear2wheel, car.wheel_dia, car.wheel_width, car.tread, car.L)
 
     interval = sim.dt * 10**3
 
@@ -86,8 +95,8 @@ def main():
     ax = plt.axes()
     ax.set_aspect('equal', adjustable='box')
     road = plt.Circle((0, 0), 50, color='gray', fill=False, linewidth=30)
-
-    def animate(i):
+    
+    def animate(frame):
 
         # Clear
         plt.cla()
@@ -101,10 +110,10 @@ def main():
 
         # Drive and draw car
         car.drive()
-        ax.plot(path.px, path.py, '--', color='gold')
-        plot_car(car.x, car.y, car.yaw, car.delta)
+        desc.plot_car(car.x, car.y, car.yaw, car.delta)
 
-        # Show car's target
+        # Show car's path and target
+        ax.plot(path.px, path.py, '--', color='gold')
         ax.plot(path.px[car.target_id], path.py[car.target_id], '+r')
 
         # Annotate car's coordinate above car
@@ -114,7 +123,7 @@ def main():
 
         plt.grid()
         plt.xlabel('Speed: {} m/s'.format(np.around(car.v, 2)), loc='left')
-        plt.title('{} Frames'.format(i), loc='right')
+        plt.title('{} Frames'.format(frame), loc='right')
 
     anim = FuncAnimation(fig, animate, frames=sim.frames, interval=interval, repeat=sim.loop)
 
