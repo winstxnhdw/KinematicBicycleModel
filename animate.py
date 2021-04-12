@@ -6,7 +6,7 @@ import random as rand
 
 from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
-from libs.cubic_spline_planner import calc_spline_course
+from libs.cubic_spline_pp import generate_cubic_path
 from libs.stanley_controller import PathTracker
 from libs.car_description import Description
 
@@ -33,7 +33,7 @@ class Path:
         y = df['Y-axis'].values.tolist()
         ds = 0.05
 
-        self.px, self.py, self.pyaw = calc_spline_course(x, y, ds)
+        self.px, self.py, self.pyaw = generate_cubic_path(x, y, ds)
 
 class Car:
 
