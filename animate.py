@@ -33,7 +33,7 @@ class Path:
         y = df['Y-axis'].values.tolist()
         ds = 0.05
 
-        self.px, self.py, self.pyaw = generate_cubic_path(x, y, ds)
+        self.px, self.py, self.pyaw, _ = generate_cubic_path(x, y, ds)
 
 class Car:
 
