@@ -137,7 +137,7 @@ def main():
         plt.title('{}s'.format(np.around(sim.dt * frame, 2)), loc='right')
         plt.xlabel('Speed: {} m/s'.format(np.around(car.v, 2)), loc='left')
 
-        return outline, fr, rr, fl, rl, target, rear_axle,
+        return outline, fr, rr, fl, rl, rear_axle, target,
 
     _ = FuncAnimation(fig, animate, frames=sim.frames, interval=interval, repeat=sim.loop)
     # anim.save('animation.gif', writer='imagemagick', fps=60)
