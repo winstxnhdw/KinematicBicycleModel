@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 class Description:
 
@@ -56,14 +55,6 @@ class Description:
         fl_wheel[1, :] += y
         rl_wheel[0, :] += x
         rl_wheel[1, :] += y
-
-        # plt.plot(np.array(outline[0, :]).flatten(), np.array(outline[1, :]).flatten(), carcolor)
-        # plt.plot(np.array(fr_wheel[0, :]).flatten(), np.array(fr_wheel[1, :]).flatten(), carcolor)
-        # plt.plot(np.array(rr_wheel[0, :]).flatten(), np.array(rr_wheel[1, :]).flatten(), carcolor)
-        # plt.plot(np.array(fl_wheel[0, :]).flatten(), np.array(fl_wheel[1, :]).flatten(), carcolor)
-        # plt.plot(np.array(rl_wheel[0, :]).flatten(), np.array(rl_wheel[1, :]).flatten(), carcolor)
-                
-        # plt.plot(x, y, "+", color=carcolor, markersize=2)
 
         outline_plot = (np.array(outline[0, :]).flatten(), np.array(outline[1, :]).flatten())
         fr_plot = (np.array(fr_wheel[0, :]).flatten(), np.array(fr_wheel[1, :]).flatten())
