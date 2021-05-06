@@ -77,5 +77,5 @@ def main():
 
     print("This script is not meant to be executable, and should be used as a library.")
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
