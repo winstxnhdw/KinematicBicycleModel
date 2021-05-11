@@ -1,4 +1,6 @@
 # Kinematic Bicycle Model
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/winstxnhdw/KinematicBicycleModel.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/KinematicBicycleModel/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/winstxnhdw/KinematicBicycleModel.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/KinematicBicycleModel/context:python)
 <div align="center">
 	<img src="resources/animation.gif" />
 </div>
