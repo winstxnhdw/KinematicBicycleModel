@@ -37,12 +37,12 @@ class Path:
 
 class Car:
 
-    def __init__(self, sim_params, path_params):
+    def __init__(self, init_x, init_y, init_yaw, sim_params, path_params):
 
         # Model parameters
-        self.x = 40
-        self.y = 0
-        self.yaw = 0.0
+        self.x = init_x
+        self.y = init_y
+        self.yaw = init_yaw
         self.v = 0.0
         self.throttle = 100
         self.delta = 0.0
@@ -86,7 +86,7 @@ def main():
     
     sim = Simulation()
     path = Path()
-    car = Car(sim, path)
+    car = Car(path.px[0], path.py[0], path.pyaw[0], sim, path)
     desc = Description(car.length, car.width, car.rear2wheel, car.wheel_dia, car.wheel_width, car.tread, car.L)
 
     interval = sim.dt * 10**3
