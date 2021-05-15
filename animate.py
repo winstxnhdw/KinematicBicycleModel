@@ -6,9 +6,9 @@ import random as rand
 
 from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
-from libs.cubic_spline_pp import generate_cubic_path
 from libs.stanley_controller import PathTracker
 from libs.car_description import Description
+from libs.cubic_spline_pp import generate_cubic_path
 
 class Simulation:
 
