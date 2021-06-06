@@ -9,8 +9,8 @@ class KinematicBicycleModel():
         """
         2D Kinematic Bicycle Model
 
-        :param x:           (float) vehicle's x-coordinate
-        :param y:           (float) vehicle's y-coordinate
+        :param x:           (float) vehicle's x-coordinate [m]
+        :param y:           (float) vehicle's y-coordinate [m]
         :param yaw:         (float) vehicle's heading [rad]
         :param v:           (float) vehicle's velocity in the x-axis [m/s]
         :param throttle:    (float) vehicle's forward speed [m/s]
@@ -21,8 +21,8 @@ class KinematicBicycleModel():
         :param c_a:         (float) vehicle's coefficient of resistance
         :param dt:          (float) discrete time period [s]
 
-        :return x:          (float) vehicle's x-coordinate
-        :return y:          (float) vehicle's y-coordinate
+        :return x:          (float) vehicle's x-coordinate [m]
+        :return y:          (float) vehicle's y-coordinate [m]
         :return yaw:        (float) vehicle's heading [rad]
         :return v:          (float) vehicle's velocity in the x-axis [m/s]
         :return delta:      (float) vehicle's steering angle [rad]
