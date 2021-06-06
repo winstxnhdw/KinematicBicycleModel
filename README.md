@@ -35,7 +35,7 @@ A python library for the Kinematic Bicycle model.
 $ pip install numpy
 ```
 
-## Usage (for Animation)
+## Demo
 This animation is inspired by Atsushi Sakai.
 ```bash
 # Install requirements.txt
