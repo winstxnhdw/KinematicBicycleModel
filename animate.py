@@ -79,7 +79,8 @@ class Car:
         self.x, self.y, self.yaw, self.v, self.delta, self.omega = self.kbm.kinematic_model()
 
         self.target_id = target_id
-        os.system('cls')
+
+        os.system('cls' if os.name=='nt' else 'clear')
         print("Cross-track error: {}".format(xtrackerr))
 
 def main():
