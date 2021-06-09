@@ -14,7 +14,7 @@ class Simulation:
 
     def __init__(self):
 
-        fps = 60.0
+        fps = 50.0
 
         self.dt = 1/fps
         self.map_size = 50
@@ -141,7 +141,7 @@ def main():
         return outline, fr, rr, fl, rl, rear_axle, target,
 
     _ = FuncAnimation(fig, animate, frames=sim.frames, interval=interval, repeat=sim.loop)
-    # anim.save('animation.gif', writer='imagemagick', fps=60)
+    # anim.save('animation.gif', writer='imagemagick', fps=50)
     plt.show()
 
 if __name__ == '__main__':
