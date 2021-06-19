@@ -74,11 +74,9 @@ class Car:
         
         self.throttle = rand.uniform(80, 200)
         self.tracker = PathTracker(self.k, self.ksoft, self.max_steer, self.L, self.throttle, self.x, self.y, self.yaw, self.px, self.py, self.pyaw)
-        self.throttle, self.delta, xtrackterm, target_id = self.tracker.stanley_control()
+        self.throttle, self.delta, xtrackterm, self.target_id = self.tracker.stanley_control()
         self.kbm = KinematicBicycleModel(self.x, self.y, self.yaw, self.v, self.throttle, self.delta, self.L, self.max_steer, self.dt, self.c_r, self.c_a)
         self.x, self.y, self.yaw, self.v, self.delta, self.omega = self.kbm.kinematic_model()
-
-        self.target_id = target_id
 
         os.system('cls' if os.name=='nt' else 'clear')
         print("Cross-track term: {}".format(xtrackterm))
