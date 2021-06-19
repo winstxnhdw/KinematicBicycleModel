@@ -12,7 +12,7 @@ A python library for the Kinematic Bicycle model.
 :param x:           (float) vehicle's x-coordinate [m]
 :param y:           (float) vehicle's y-coordinate [m]
 :param yaw:         (float) vehicle's heading [rad]
-:param v:           (float) vehicle's velocity in the x-axis [m/s]
+:param v:           (float) vehicle's force output [N]
 :param throttle:    (float) vehicle's forward speed [m/s]
 :param delta:       (float) vehicle's steering angle [rad]
 :param L:           (float) vehicle's wheelbase [m]
