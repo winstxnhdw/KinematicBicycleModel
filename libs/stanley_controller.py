@@ -57,11 +57,7 @@ class PathTracker:
         sigma_t = crosstrack_term + heading_term
 
         # Constrains steering angle to the vehicle limits
-        if sigma_t >= self.max_steer:
-            sigma_t = self.max_steer
-
-        elif sigma_t <= -self.max_steer:
-            sigma_t = -self.max_steer
+        sigma_t = np.clip(sigma_t, -self.max_steer, self.max_steer)
 
         return self.target_vel, sigma_t, crosstrack_term, target_id
 
