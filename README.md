@@ -6,7 +6,7 @@
 </div>
    
 ## Abstract
-A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a combination of the nn-linear and linear bicycle models. The model allows the vehicle to come to rest without passing the function a negative acceleration. This enables a high-speed integration of the library with little configuration.
+A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a compromise between the non-linear and linear bicycle models. The model allows the vehicle to come to rest without passing the function a negative acceleration, similar to the non-linear bicycle. This enables a high-speed integration of the library with little configuration.
 
 ```yaml
 :param x:           (float) vehicle's x-coordinate [m]
