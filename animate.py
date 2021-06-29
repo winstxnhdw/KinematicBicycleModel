@@ -6,7 +6,7 @@ import random as rand
 
 from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
-from libs.stanley_controller import PathTracker
+from libs.stanley_controller import StanleyController
 from libs.car_description import Description
 from libs.cubic_spline_pp import generate_cubic_path
 
@@ -17,8 +17,8 @@ class Simulation:
         fps = 50.0
 
         self.dt = 1/fps
-        self.map_size = 50
-        self.frames = 5000
+        self.map_size = 40
+        self.frames = 2500
         self.loop = False
 
 class Path:
@@ -57,9 +57,11 @@ class Car:
         self.px = path_params.px
         self.py = path_params.py
         self.pyaw = path_params.pyaw
-        self.k = 10.0
+        self.k = 8.0
         self.ksoft = 1.0
-        self.xtrackerr = None
+        self.kyaw = 0.01
+        self.ksteer = 0.0
+        self.crosstrack_error = None
         self.target_id = None
 
         # Description parameters
@@ -70,16 +72,17 @@ class Car:
         self.wheel_width = 0.2
         self.tread = 0.7
 
+        self.tracker = StanleyController(self.k, self.ksoft, self.kyaw, self.ksteer, self.max_steer, self.L, self.px, self.py, self.pyaw)
+        self.kbm = KinematicBicycleModel(self.L, self.max_steer, self.dt, self.c_r, self.c_a)
+
     def drive(self):
         
-        self.throttle = rand.uniform(80, 200)
-        self.tracker = PathTracker(self.k, self.ksoft, self.max_steer, self.L, self.throttle, self.x, self.y, self.yaw, self.px, self.py, self.pyaw)
-        self.throttle, self.delta, xtrackterm, self.target_id = self.tracker.stanley_control()
-        self.kbm = KinematicBicycleModel(self.x, self.y, self.yaw, self.v, self.throttle, self.delta, self.L, self.max_steer, self.dt, self.c_r, self.c_a)
-        self.x, self.y, self.yaw, self.v, self.delta, self.omega = self.kbm.kinematic_model()
+        self.throttle = rand.uniform(150, 200)
+        self.delta, self.target_id, self.crosstrack_error = self.tracker.stanley_control(self.x, self.y, self.yaw, self.v, self.delta)
+        self.x, self.y, self.yaw, self.v, _, _ = self.kbm.kinematic_model(self.x, self.y, self.yaw, self.v, self.throttle, self.delta)
 
         os.system('cls' if os.name=='nt' else 'clear')
-        print("Cross-track term: {}".format(xtrackterm))
+        print("Cross-track term: {}".format(self.crosstrack_error))
 
 def main():
     
