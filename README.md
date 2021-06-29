@@ -10,8 +10,7 @@ A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a com
 
 ## Advantages
 - The model allows the vehicle to come to rest without passing the model a negative acceleration; similar to the non-linear bicycle.
-- The lightweight model is able to accurately represent a vehicle with no slip or tire stiffness.
-- Easily configurable.
+- This lightweight model is able to accurately represent a vehicle with no slip or tire stiffness.
 
 ```yaml
 At initialisation
@@ -44,7 +43,6 @@ $ pip install numpy
 ```
 
 ## Demo
-This animation is inspired by Atsushi Sakai.
 ```bash
 # Install requirements.txt
 $ pip install -r requirements.txt
