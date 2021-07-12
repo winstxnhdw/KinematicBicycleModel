@@ -20,7 +20,7 @@ At initialisation
 :param c_r:         (float) vehicle's aerodynamic coefficient
 :param c_a:         (float) vehicle's coefficient of resistance
 
-Every frame
+At every time step
 :param x:           (float) vehicle's x-coordinate [m]
 :param y:           (float) vehicle's y-coordinate [m]
 :param yaw:         (float) vehicle's heading [rad]
