@@ -6,20 +6,27 @@
 </div>
    
 ## Abstract
-A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a compromise between the non-linear and linear bicycle models. The model allows the vehicle to come to rest without passing the function a negative acceleration, similar to the non-linear bicycle. This enables a high-speed integration of the library with little configuration.
+A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a compromise between the non-linear and linear bicycle models for high-speed integration of the library with little configuration.
+
+## Advantages
+- The model allows the vehicle to come to rest without passing the model a negative acceleration; similar to the non-linear bicycle.
+- This lightweight model is able to accurately represent a vehicle with no slip or tire stiffness.
 
 ```yaml
-:param x:           (float) vehicle's x-coordinate at the rear axle[m]
-:param y:           (float) vehicle's y-coordinate at the rear axle [m]
-:param yaw:         (float) vehicle's heading [rad]
-:param v:           (float) vehicle's forward speed [m/s]
-:param throttle:    (float) vehicle's acceleration [m/s^2]
-:param delta:       (float) vehicle's steering angle [rad]
+At initialisation
 :param L:           (float) vehicle's wheelbase [m]
 :param max_steer:   (float) vehicle's steering limits [rad]
+:param dt:          (float) discrete time period [s]
 :param c_r:         (float) vehicle's aerodynamic coefficient
 :param c_a:         (float) vehicle's coefficient of resistance
-:param dt:          (float) discrete time period [s]
+
+At every time step
+:param x:           (float) vehicle's x-coordinate [m]
+:param y:           (float) vehicle's y-coordinate [m]
+:param yaw:         (float) vehicle's heading [rad]
+:param v:           (float) vehicle's velocity in the x-axis [m/s]
+:param throttle:    (float) vehicle's accleration [m/s^2]
+:param delta:       (float) vehicle's steering angle [rad]
 
 :return x:          (float) vehicle's x-coordinate [m]
 :return y:          (float) vehicle's y-coordinate [m]
@@ -36,7 +43,6 @@ $ pip install numpy
 ```
 
 ## Demo
-This animation is inspired by Atsushi Sakai.
 ```bash
 # Install requirements.txt
 $ pip install -r requirements.txt
