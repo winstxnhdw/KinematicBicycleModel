@@ -95,7 +95,7 @@ def main():
 
     fig = plt.figure()
     ax = plt.axes()
-    ax.set_box_aspect(1)
+    ax.set_aspect('equal')
 
     road = plt.Circle((0, 0), 50, color='gray', fill=False, linewidth=30)
     ax.add_patch(road)
