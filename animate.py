@@ -37,26 +37,26 @@ class Path:
 
 class Car:
 
-    def __init__(self, init_x, init_y, init_yaw, sim_params, path_params):
+    def __init__(self, px, py, pyaw, dt):
 
         # Model parameters
-        self.x = init_x
-        self.y = init_y 
-        self.yaw = init_yaw
+        self.x = px[0]
+        self.y = py[0]
+        self.yaw = pyaw[0]
         self.v = 0.0
         self.throttle = 100
         self.delta = 0.0
         self.omega = 0.0
         self.L = 2.5
         self.max_steer = np.deg2rad(33)
-        self.dt = sim_params.dt
+        self.dt = dt
         self.c_r = 0.01
         self.c_a = 2.0
 
         # Tracker parameters
-        self.px = path_params.px
-        self.py = path_params.py
-        self.pyaw = path_params.pyaw
+        self.px = px
+        self.py = py
+        self.pyaw = pyaw
         self.k = 8.0
         self.ksoft = 1.0
         self.kyaw = 0.01
@@ -88,7 +88,7 @@ def main():
     
     sim = Simulation()
     path = Path()
-    car = Car(path.px[0], path.py[0], path.pyaw[0], sim, path)
+    car = Car(path.px, path.py, path.pyaw, sim.dt)
     desc = Description(car.length, car.width, car.rear2wheel, car.wheel_dia, car.wheel_width, car.tread, car.L)
 
     interval = sim.dt * 10**3
