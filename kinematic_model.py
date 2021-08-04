@@ -45,7 +45,7 @@ class KinematicBicycleModel():
         f_load = v * (self.c_r + self.c_a * v)
         v += self.dt * (throttle - f_load)
 
-        # Compute radius and angular velocity of the kinematic bicycle model
+        # Compute the radius and angular velocity of the kinematic bicycle model
         delta = np.clip(delta, -self.max_steer, self.max_steer)
 
         # Compute the state change rate
