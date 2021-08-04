@@ -2,21 +2,20 @@ import numpy as np
 
 class Description:
 
-    def __init__(self, length=0.0, width=0.0, rear2wheel=0.0, wheel_diameter=0.0, wheel_width=0.0, tread=0.0, wheelbase=0.0):
+    def __init__(self, length, width, rear2wheel, wheel_diameter, wheel_width, tread, wheelbase):
 
         self.length = length
-        self.width = width
+        self.axle_to_track = width / 2
         self.rear2wheel = rear2wheel
         self.wheel_dia = wheel_diameter
         self.wheel_width = wheel_width
         self.tread = tread
         self.wheelbase = wheelbase
 
-        
-    def plot_car(self, x, y, yaw, steer=0.0, carcolor="black"):
+    def plot_car(self, x, y, yaw, steer):
 
         outline = np.array([[-self.rear2wheel, (self.length - self.rear2wheel), (self.length - self.rear2wheel), -self.rear2wheel, -self.rear2wheel],
-                            [self.width / 2, self.width / 2, - self.width / 2, -self.width / 2, self.width / 2]])
+                            [self.axle_to_track, self.axle_to_track, -self.axle_to_track, -self.axle_to_track, self.axle_to_track]])
 
         wheel_format = np.array([[self.wheel_dia, -self.wheel_dia, -self.wheel_dia, self.wheel_dia, self.wheel_dia],
                                 [-self.wheel_width - self.tread, -self.wheel_width - self.tread, self.wheel_width - self.tread, self.wheel_width - self.tread, -self.wheel_width - self.tread]])

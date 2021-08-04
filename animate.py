@@ -71,6 +71,7 @@ class Car:
         self.wheel_dia = 0.15 * 2
         self.wheel_width = 0.2
         self.tread = 0.7
+        self.colour = 'black'
 
         self.tracker = StanleyController(self.k, self.ksoft, self.kyaw, self.ksteer, self.max_steer, self.L, self.px, self.py, self.pyaw)
         self.kbm = KinematicBicycleModel(self.L, self.max_steer, self.dt, self.c_r, self.c_a)
@@ -104,12 +105,12 @@ def main():
     annotation = ax.annotate('{}, {}'.format(car.x, car.y), xy=(car.x, car.y + 5), color='black', annotation_clip=False)
     target, = ax.plot([], [], '+r')
 
-    outline, = ax.plot([], [], color='black')
-    fr, = ax.plot([], [], color='black')
-    rr, = ax.plot([], [], color='black')
-    fl, = ax.plot([], [], color='black')
-    rl, = ax.plot([], [], color='black')
-    rear_axle, = ax.plot(car.x, car.y, '+', color='black', markersize=2)
+    outline, = ax.plot([], [], color=car.colour)
+    fr, = ax.plot([], [], color=car.colour)
+    rr, = ax.plot([], [], color=car.colour)
+    fl, = ax.plot([], [], color=car.colour)
+    rl, = ax.plot([], [], color=car.colour)
+    rear_axle, = ax.plot(car.x, car.y, '+', color=car.colour, markersize=2)
 
     plt.grid()
     
