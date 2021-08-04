@@ -48,16 +48,10 @@ class KinematicBicycleModel():
         # Compute radius and angular velocity of the kinematic bicycle model
         delta = np.clip(delta, -self.max_steer, self.max_steer)
 
-        if delta == 0.0:
-            omega = 0.0
-
-        else:
-            R = self.L / np.tan(delta)
-            omega = v / R
-
         # Compute the state change rate
         x_dot = v * np.cos(yaw)
         y_dot = v * np.sin(yaw)
+        omega = v * np.tan(delta) / self.L
 
         # Compute the final state using the discrete time model
         x += x_dot * self.dt
