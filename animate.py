@@ -44,7 +44,6 @@ class Car:
         self.y = init_y
         self.yaw = init_yaw
         self.v = 0.0
-        self.throttle = 100
         self.delta = 0.0
         self.omega = 0.0
         self.L = 2.5
@@ -78,9 +77,9 @@ class Car:
 
     def drive(self):
         
-        self.throttle = rand.uniform(150, 200)
+        throttle = rand.uniform(150, 200)
         self.delta, self.target_id, self.crosstrack_error = self.tracker.stanley_control(self.x, self.y, self.yaw, self.v, self.delta)
-        self.x, self.y, self.yaw, self.v, _, _ = self.kbm.kinematic_model(self.x, self.y, self.yaw, self.v, self.throttle, self.delta)
+        self.x, self.y, self.yaw, self.v, _, _ = self.kbm.kinematic_model(self.x, self.y, self.yaw, self.v, throttle, self.delta)
 
         os.system('cls' if os.name=='nt' else 'clear')
         print("Cross-track term: {}".format(self.crosstrack_error))
