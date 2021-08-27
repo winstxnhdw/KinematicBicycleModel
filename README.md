@@ -17,8 +17,8 @@ At initialisation
 :param L:           (float) vehicle's wheelbase [m]
 :param max_steer:   (float) vehicle's steering limits [rad]
 :param dt:          (float) discrete time period [s]
-:param c_r:         (float) vehicle's aerodynamic coefficient
-:param c_a:         (float) vehicle's coefficient of resistance
+:param c_r:         (float) vehicle's coefficient of resistance 
+:param c_a:         (float) vehicle's aerodynamic coefficient
 
 At every time step
 :param x:           (float) vehicle's x-coordinate [m]
