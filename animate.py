@@ -8,7 +8,7 @@ from kinematic_model import KinematicBicycleModel
 from matplotlib.animation import FuncAnimation
 from libs.stanley_controller import StanleyController
 from libs.car_description import Description
-from libs.cubic_spline_pp import generate_cubic_path
+from libs.cubic_spline_interpolator import generate_cubic_spline
 
 class Simulation:
 
@@ -29,11 +29,11 @@ class Path:
         dir_path = 'data/waypoints.csv'
         df = pd.read_csv(dir_path)
 
-        x = df['X-axis'].values.tolist()
-        y = df['Y-axis'].values.tolist()
+        x = df['X-axis'].values
+        y = df['Y-axis'].values
         ds = 0.05
 
-        self.px, self.py, self.pyaw, _ = generate_cubic_path(x, y, ds)
+        self.px, self.py, self.pyaw, _ = generate_cubic_spline(x, y, ds)
 
 class Car:
 

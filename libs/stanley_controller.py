@@ -8,6 +8,7 @@ class StanleyController:
         
         """
         Stanley Controller
+
         At initialisation
         :param control_gain:                (float) time constant [1/s]
         :param softening_gain:              (float) softening gain [m/s]
@@ -15,17 +16,18 @@ class StanleyController:
         :param steering_damp_gain:          (float) steering damp gain
         :param max_steer:                   (float) vehicle's steering limits [rad]
         :param wheelbase:                   (float) vehicle's wheelbase [m]
-        :param path_x:                      (list) list of x-coordinates along the path
-        :param path_y:                      (list) list of y-coordinates along the path
-        :param path_yaw:                    (list) list of discrete yaw values along the path
+        :param path_x:                      (numpy.ndarray) list of x-coordinates along the path
+        :param path_y:                      (numpy.ndarray) list of y-coordinates along the path
+        :param path_yaw:                    (numpy.ndarray) list of discrete yaw values along the path
         :param dt:                          (float) discrete time period [s]
-        
-        Every frame
+
+        At every time step
         :param x:                           (float) vehicle's x-coordinate [m]
         :param y:                           (float) vehicle's y-coordinate [m]
         :param yaw:                         (float) vehicle's heading [rad]
         :param target_velocity:             (float) vehicle's velocity [m/s]
         :param steering_angle:              (float) vehicle's steering angle [rad]
+
         :return limited_steering_angle:     (float) steering angle after imposing steering limits [rad]
         :return target_index:               (int) closest path index
         :return crosstrack_error:           (float) distance from closest path index [m]
@@ -48,8 +50,8 @@ class StanleyController:
         fx = x + self.L * np.cos(yaw)
         fy = y + self.L * np.sin(yaw)
 
-        dx = [fx - icx for icx in self.px] # Find the x-axis of the front axle relative to the path
-        dy = [fy - icy for icy in self.py] # Find the y-axis of the front axle relative to the path
+        dx = fx - self.px    # Find the x-axis of the front axle relative to the path
+        dy = fy - self.py    # Find the y-axis of the front axle relative to the path
 
         d = np.hypot(dx, dy) # Find the distance from the front axle to the path
         target_index = np.argmin(d) # Find the shortest distance in the array
