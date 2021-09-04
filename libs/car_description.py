@@ -5,7 +5,7 @@ class Description:
     def __init__(self, length, width, rear2wheel, wheel_diameter, wheel_width, tread, wheelbase):
 
         self.length = length
-        self.axle_to_track = width / 2
+        self.centre_to_side = width / 2
         self.rear2wheel = rear2wheel
         self.wheel_dia = wheel_diameter
         self.wheel_width = wheel_width
@@ -15,7 +15,7 @@ class Description:
     def plot_car(self, x, y, yaw, steer):
 
         outline = np.array([[-self.rear2wheel, (self.length - self.rear2wheel), (self.length - self.rear2wheel), -self.rear2wheel, -self.rear2wheel],
-                            [self.axle_to_track, self.axle_to_track, -self.axle_to_track, -self.axle_to_track, self.axle_to_track]])
+                            [self.centre_to_side, self.centre_to_side, -self.centre_to_side, -self.centre_to_side, self.centre_to_side]])
 
         wheel_format = np.array([[self.wheel_dia, -self.wheel_dia, -self.wheel_dia, self.wheel_dia, self.wheel_dia],
                                 [-self.wheel_width - self.tread, -self.wheel_width - self.tread, self.wheel_width - self.tread, self.wheel_width - self.tread, -self.wheel_width - self.tread]])
