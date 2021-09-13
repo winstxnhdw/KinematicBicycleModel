@@ -56,7 +56,7 @@ class StanleyController:
         d = np.hypot(dx, dy) # Find the distance from the front axle to the path
         target_index = np.argmin(d) # Find the shortest distance in the array
 
-        return target_index, dx, dy
+        return target_index, dx[target_index], dy[target_index], d[target_index]
 
     def calculate_yaw_term(self, target_index, yaw):
 
@@ -64,10 +64,11 @@ class StanleyController:
 
         return yaw_error
 
-    def calculate_crosstrack_term(self, target_index, target_velocity, yaw, dx, dy):
+    def calculate_crosstrack_term(self, target_velocity, yaw, dx, dy, absolute_error):
 
         front_axle_vector = [np.sin(yaw), -np.cos(yaw)]
-        crosstrack_error = np.dot([dx[target_index], dy[target_index]], front_axle_vector)
+        nearest_path_vector = [dx, dy]
+        crosstrack_error = np.sign(np.dot(nearest_path_vector, front_axle_vector)) * absolute_error
 
         crosstrack_steering_error = np.arctan2((self.k * crosstrack_error), (self.k_soft + target_velocity))
 
@@ -87,9 +88,9 @@ class StanleyController:
 
     def stanley_control(self, x, y, yaw, target_velocity, steering_angle):
 
-        target_index, dx, dy = self.find_target_path_id(x, y, yaw)
+        target_index, dx, dy, absolute_error = self.find_target_path_id(x, y, yaw)
         yaw_error = self.calculate_yaw_term(target_index, yaw)
-        crosstrack_steering_error, crosstrack_error = self.calculate_crosstrack_term(target_index, target_velocity, yaw, dx, dy)
+        crosstrack_steering_error, crosstrack_error = self.calculate_crosstrack_term(target_velocity, yaw, dx, dy, absolute_error)
         yaw_rate_damping = self.calculate_yaw_rate_term(target_velocity, steering_angle)
         
         desired_steering_angle = yaw_error + crosstrack_steering_error + yaw_rate_damping
