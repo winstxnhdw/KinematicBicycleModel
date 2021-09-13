@@ -82,7 +82,7 @@ class Car:
         self.x, self.y, self.yaw, self.v, _, _ = self.kbm.kinematic_model(self.x, self.y, self.yaw, self.v, throttle, self.delta)
 
         os.system('cls' if os.name=='nt' else 'clear')
-        print("Cross-track term: {}".format(self.crosstrack_error))
+        print(f"Cross-track term: {self.crosstrack_error}")
 
 def main():
     
@@ -101,7 +101,7 @@ def main():
     ax.add_patch(road)
     ax.plot(path.px, path.py, '--', color='gold')
 
-    annotation = ax.annotate('{}, {}'.format(car.x, car.y), xy=(car.x, car.y + 5), color='black', annotation_clip=False)
+    annotation = ax.annotate(f'{car.x:.1f}, {car.y:.1f}', xy=(car.x, car.y + 5), color='black', annotation_clip=False)
     target, = ax.plot([], [], '+r')
 
     outline, = ax.plot([], [], color=car.colour)
@@ -133,11 +133,11 @@ def main():
         target.set_data(path.px[car.target_id], path.py[car.target_id])
 
         # Annotate car's coordinate above car
-        annotation.set_text('{}, {}'.format(np.around(car.x, 1), np.around(car.y, 1)))
+        annotation.set_text(f'{car.x:.1f}, {car.y:.1f}')
         annotation.set_position((car.x, car.y + 5))
 
-        plt.title('{}s'.format(np.around(sim.dt * frame, 2)), loc='right')
-        plt.xlabel('Speed: {} m/s'.format(np.around(car.v, 2)), loc='left')
+        plt.title(f'{sim.dt*frame:.2f}s', loc='right')
+        plt.xlabel(f'Speed: {car.v:.2f} m/s', loc='left')
 
         return outline, fr, rr, fl, rl, rear_axle, target,
 
