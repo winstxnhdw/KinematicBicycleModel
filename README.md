@@ -37,7 +37,7 @@ At every time step
 - This lightweight model is able to accurately represent a vehicle with no slip or tire stiffness.
 
 ## Limitations
-Just like with all other bicycle models, this model is a discrete model and loses its accuracy when the time step is set too large or the vehicle is made to travel at unreasonably high speeds. Usually, the user should set the FPS of the simulation to be as high as possible for the greatest accuracy. However, for rendering high-quality GIFs, 50 FPS is the most optimal value.
+Just like with all other bicycle models, this model is a discrete model and loses its accuracy when the time step is set too large or the vehicle is made to travel at unreasonably high speeds. Usually, the FPS of the simulation should be set to the highest possible value for the greatest accuracy. However, for rendering high-quality GIFs, 50 FPS is found to be most optimal.
 
 ## Requirements
 ```bash
