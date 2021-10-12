@@ -46,7 +46,7 @@ class Car:
         self.v = 0.0
         self.delta = 0.0
         self.omega = 0.0
-        self.L = 2.5
+        self.wheelbase = 2.96
         self.max_steer = np.deg2rad(33)
         self.dt = dt
         self.c_r = 0.01
@@ -64,16 +64,16 @@ class Car:
         self.target_id = None
 
         # Description parameters
-        self.length = 4.5
-        self.width = 2.0
-        self.rear2wheel = 1.0
-        self.wheel_dia = 0.15 * 2
-        self.wheel_width = 0.2
-        self.tread = 0.7
+        self.overall_length = 4.97
+        self.overall_width = 1.964
+        self.tyre_diameter = 0.4826
+        self.tyre_width = 0.2032
+        self.axle_track = 1.662
+        self.rear_overhang = (self.overall_length - self.wheelbase) / 2
         self.colour = 'black'
 
-        self.tracker = StanleyController(self.k, self.ksoft, self.kyaw, self.ksteer, self.max_steer, self.L, self.px, self.py, self.pyaw)
-        self.kbm = KinematicBicycleModel(self.L, self.max_steer, self.dt, self.c_r, self.c_a)
+        self.tracker = StanleyController(self.k, self.ksoft, self.kyaw, self.ksteer, self.max_steer, self.wheelbase, self.px, self.py, self.pyaw)
+        self.kbm = KinematicBicycleModel(self.wheelbase, self.max_steer, self.dt, self.c_r, self.c_a)
 
     def drive(self):
         
@@ -89,7 +89,7 @@ def main():
     sim = Simulation()
     path = Path()
     car = Car(path.px[0], path.py[0], path.pyaw[0], path.px, path.py, path.pyaw, sim.dt)
-    desc = Description(car.length, car.width, car.rear2wheel, car.wheel_dia, car.wheel_width, car.tread, car.L)
+    desc = Description(car.overall_length, car.overall_width, car.rear_overhang, car.tyre_diameter, car.tyre_width, car.axle_track, car.wheelbase)
 
     interval = sim.dt * 10**3
 
@@ -122,11 +122,11 @@ def main():
         # Drive and draw car
         car.drive()
         outline_plot, fr_plot, rr_plot, fl_plot, rl_plot = desc.plot_car(car.x, car.y, car.yaw, car.delta)
-        outline.set_data(outline_plot[0], outline_plot[1])
-        fr.set_data(fr_plot[0], fr_plot[1])
-        rr.set_data(rr_plot[0], rr_plot[1])
-        fl.set_data(fl_plot[0], fl_plot[1])
-        rl.set_data(rl_plot[0], rl_plot[1])
+        outline.set_data(*outline_plot)
+        fr.set_data(*fr_plot)
+        rr.set_data(*rr_plot)
+        fl.set_data(*fl_plot)
+        rl.set_data(*rl_plot)
         rear_axle.set_data(car.x, car.y)
 
         # Show car's target

@@ -10,26 +10,26 @@ A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a com
 
 ```yaml
 At initialisation
-:param L:           (float) vehicle's wheelbase [m]
-:param max_steer:   (float) vehicle's steering limits [rad]
-:param dt:          (float) discrete time period [s]
-:param c_r:         (float) vehicle's coefficient of resistance 
-:param c_a:         (float) vehicle's aerodynamic coefficient
+:param wheelbase:       (float) vehicle's wheelbase [m]
+:param max_steer:       (float) vehicle's steering limits [rad]
+:param dt:              (float) discrete time period [s]
+:param c_r:             (float) vehicle's coefficient of resistance 
+:param c_a:             (float) vehicle's aerodynamic coefficient
 
-At every time step
-:param x:           (float) vehicle's x-coordinate [m]
-:param y:           (float) vehicle's y-coordinate [m]
-:param yaw:         (float) vehicle's heading [rad]
-:param v:           (float) vehicle's velocity in the x-axis [m/s]
-:param throttle:    (float) vehicle's accleration [m/s^2]
-:param delta:       (float) vehicle's steering angle [rad]
+At every time step  
+:param x:               (float) vehicle's x-coordinate [m]
+:param y:               (float) vehicle's y-coordinate [m]
+:param yaw:             (float) vehicle's heading [rad]
+:param velocity:        (float) vehicle's velocity in the x-axis [m/s]
+:param throttle:        (float) vehicle's accleration [m/s^2]
+:param delta:           (float) vehicle's steering angle [rad]
 
-:return x:          (float) vehicle's x-coordinate [m]
-:return y:          (float) vehicle's y-coordinate [m]
-:return yaw:        (float) vehicle's heading [rad]
-:return v:          (float) vehicle's velocity in the x-axis [m/s]
-:return delta:      (float) vehicle's steering angle [rad]
-:return omega:      (float) vehicle's angular velocity [rad/s]
+:return x:              (float) vehicle's x-coordinate [m]
+:return y:              (float) vehicle's y-coordinate [m]
+:return yaw:            (float) vehicle's heading [rad]
+:return velocity:       (float) vehicle's velocity in the x-axis [m/s]
+:return delta:          (float) vehicle's steering angle [rad]
+:return omega:          (float) vehicle's angular velocity [rad/s]
 ```
 
 ## Advantages

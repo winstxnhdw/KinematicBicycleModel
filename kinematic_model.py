@@ -5,52 +5,52 @@ from libs.normalise_angle import normalise_angle
 
 class KinematicBicycleModel():
 
-    def __init__(self, L=1.0, max_steer=0.7, dt=0.05, c_r=0.0, c_a=0.0):
+    def __init__(self, wheelbase=1.0, max_steer=0.7, dt=0.05, c_r=0.0, c_a=0.0):
         """
         2D Kinematic Bicycle Model
 
         At initialisation
-        :param L:           (float) vehicle's wheelbase [m]
-        :param max_steer:   (float) vehicle's steering limits [rad]
-        :param dt:          (float) discrete time period [s]
-        :param c_r:         (float) vehicle's coefficient of resistance 
-        :param c_a:         (float) vehicle's aerodynamic coefficient
-
-        At every time step
-        :param x:           (float) vehicle's x-coordinate [m]
-        :param y:           (float) vehicle's y-coordinate [m]
-        :param yaw:         (float) vehicle's heading [rad]
-        :param v:           (float) vehicle's velocity in the x-axis [m/s]
-        :param throttle:    (float) vehicle's accleration [m/s^2]
-        :param delta:       (float) vehicle's steering angle [rad]
-
-        :return x:          (float) vehicle's x-coordinate [m]
-        :return y:          (float) vehicle's y-coordinate [m]
-        :return yaw:        (float) vehicle's heading [rad]
-        :return v:          (float) vehicle's velocity in the x-axis [m/s]
-        :return delta:      (float) vehicle's steering angle [rad]
-        :return omega:      (float) vehicle's angular velocity [rad/s]
+        :param wheelbase:       (float) vehicle's wheelbase [m]
+        :param max_steer:       (float) vehicle's steering limits [rad]
+        :param dt:              (float) discrete time period [s]
+        :param c_r:             (float) vehicle's coefficient of resistance 
+        :param c_a:             (float) vehicle's aerodynamic coefficient
+    
+        At every time step  
+        :param x:               (float) vehicle's x-coordinate [m]
+        :param y:               (float) vehicle's y-coordinate [m]
+        :param yaw:             (float) vehicle's heading [rad]
+        :param velocity:        (float) vehicle's velocity in the x-axis [m/s]
+        :param throttle:        (float) vehicle's accleration [m/s^2]
+        :param delta:           (float) vehicle's steering angle [rad]
+    
+        :return x:              (float) vehicle's x-coordinate [m]
+        :return y:              (float) vehicle's y-coordinate [m]
+        :return yaw:            (float) vehicle's heading [rad]
+        :return velocity:       (float) vehicle's velocity in the x-axis [m/s]
+        :return delta:          (float) vehicle's steering angle [rad]
+        :return omega:          (float) vehicle's angular velocity [rad/s]
         """
 
         self.dt = dt
-        self.L = L
+        self.wheelbase = wheelbase
         self.max_steer = max_steer
         self.c_r = c_r
         self.c_a = c_a
 
-    def kinematic_model(self, x, y, yaw, v, throttle, delta):
+    def kinematic_model(self, x, y, yaw, velocity, throttle, delta):
 
         # Compute the local velocity in the x-axis
-        f_load = v * (self.c_r + self.c_a * v)
-        v += self.dt * (throttle - f_load)
+        f_load = velocity * (self.c_r + self.c_a * velocity)
+        velocity += self.dt * (throttle - f_load)
 
         # Compute the radius and angular velocity of the kinematic bicycle model
-        delta = np.clip(delta, -self.max_steer, self.max_steer)
+        delta = clip(delta, -self.max_steer, self.max_steer)
 
         # Compute the state change rate
-        x_dot = v * np.cos(yaw)
-        y_dot = v * np.sin(yaw)
-        omega = v * np.tan(delta) / self.L
+        x_dot = velocity * cos(yaw)
+        y_dot = velocity * sin(yaw)
+        omega = velocity * tan(delta) / self.wheelbase
 
         # Compute the final state using the discrete time model
         x += x_dot * self.dt
@@ -58,7 +58,7 @@ class KinematicBicycleModel():
         yaw += omega * self.dt
         yaw = normalise_angle(yaw)
         
-        return x, y, yaw, v, delta, omega
+        return x, y, yaw, velocity, delta, omega
 
 def main():
 
