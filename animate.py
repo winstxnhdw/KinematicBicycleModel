@@ -138,6 +138,7 @@ def main():
 
         plt.title(f'{sim.dt*frame:.2f}s', loc='right')
         plt.xlabel(f'Speed: {car.v:.2f} m/s', loc='left')
+        # plt.savefig(f'fig/visualisation_{frame:04}.png')
 
         return outline, fr, rr, fl, rl, rear_axle, target,
 
