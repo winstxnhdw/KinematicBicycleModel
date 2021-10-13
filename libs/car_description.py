@@ -13,14 +13,14 @@ class Description:
         :param tyre_width:          (float) vehicle's tyre width [m]
         :param axle_track:          (float) vehicle's axle track [m]
         :param wheelbase:           (float) vehicle's wheelbase [m]
-
+        
         At every time step
         :param x:                   (float) x-coordinate of the vehicle's rear axle
         :param y:                   (float) y-coordinate of the vehicle's rear axle
         :param yaw:                 (float) vehicle's heading [rad]
         :param steer:               (float) vehicle's steering angle [rad]
         
-        :return outline:            (list) vehicle's outline [x, y]
+        :return outlines:           (list) vehicle's outlines [x, y]
         :return fr_wheel:           (list) vehicle's front-right axle [x, y]
         :return rr_wheel:           (list) vehicle's rear-right axle [x, y]
         :return fl_wheel:           (list) vehicle's front-left axle [x, y]
@@ -40,66 +40,63 @@ class Description:
                                    ( tyre_diameter,  tyre_width - centre_to_wheel),
                                    ( tyre_diameter, -tyre_width - centre_to_wheel),
                                    (-tyre_diameter, -tyre_width - centre_to_wheel)])
-                                   
-        self.wheelbase = wheelbase
-        self.outline = np.concatenate((vehicle_vertices, [vehicle_vertices[0]]))
+
+        self.outlines = np.concatenate((vehicle_vertices, [vehicle_vertices[0]]))
+
         self.wheel_format = np.concatenate((wheel_vertices, [wheel_vertices[0]]))
-        self.wheel_centre = np.array([(wheel_vertices[0][0] + wheel_vertices[2][0]) / 2,
-                                      (wheel_vertices[0][1] + wheel_vertices[2][1]) / 2])
+        self.rl_wheel = np.copy(self.wheel_format)
+        self.rl_wheel[:,1] *= -1
+        self.fl_wheel = np.copy(self.rl_wheel)
+        self.fl_wheel[:, 0] += wheelbase 
+        self.fr_wheel = np.copy(self.wheel_format)
+        self.fr_wheel[:, 0] += wheelbase
+                                   
+        self.fr_wheel_centre = np.array([(self.fr_wheel[0][0] + self.fr_wheel[2][0]) / 2,
+                                         (self.fr_wheel[0][1] + self.fr_wheel[2][1]) / 2])
+
+        self.fl_wheel_centre = np.array([(self.fl_wheel[0][0] + self.fl_wheel[2][0]) / 2,
+                                         (self.fl_wheel[0][1] + self.fl_wheel[2][1]) / 2])
+
+    def get_rotation_matrix(self, angle):
+
+        return np.array([( np.cos(angle), np.sin(angle)),
+                         (-np.sin(angle), np.cos(angle))])
+
+    def transform(self, point, x, y, angle_vector):
+
+        # Rotational transform
+        point = point.dot(angle_vector).T
+
+        # Position translation
+        point[0,:] += x
+        point[1,:] += y
+        
+        return point
 
     def plot_car(self, x, y, yaw, steer=0.0):
 
         # Rotation matrices
-        yaw_vector = np.array([( np.cos(yaw), np.sin(yaw)),
-                               (-np.sin(yaw), np.cos(yaw))])
-                              
-        steer_vector = np.array([( np.cos(steer), np.sin(steer)),
-                                 (-np.sin(steer), np.cos(steer))])
+        yaw_vector   = self.get_rotation_matrix(yaw)
+        steer_vector = self.get_rotation_matrix(steer)
 
-        outline = np.copy(self.outline)
-        fr_wheel = np.copy(self.wheel_format)
-        rr_wheel = np.copy(self.wheel_format)
-        fl_wheel = np.copy(self.wheel_format)
-        rl_wheel = np.copy(self.wheel_format)
-
-        fl_wheel[:,1] *= -1
-        rl_wheel[:,1] *= -1
+        fr_wheel = np.copy(self.fr_wheel)
+        fl_wheel = np.copy(self.fl_wheel)
 
         # Rotate the wheels about its position
-        fr_wheel -= self.wheel_centre
-        fl_wheel += self.wheel_centre
-        fr_wheel = fr_wheel.dot(steer_vector)
-        fl_wheel = fl_wheel.dot(steer_vector)
-        fr_wheel += self.wheel_centre
-        fl_wheel -= self.wheel_centre
+        fr_wheel -= self.fr_wheel_centre
+        fl_wheel -= self.fl_wheel_centre
+        fr_wheel  = fr_wheel.dot(steer_vector)
+        fl_wheel  = fl_wheel.dot(steer_vector)
+        fr_wheel += self.fr_wheel_centre
+        fl_wheel += self.fl_wheel_centre
 
-        fr_wheel[:,0] += self.wheelbase
-        fl_wheel[:,0] += self.wheelbase
+        outlines = self.transform(self.outlines, x, y, yaw_vector)
+        fr_wheel = self.transform(fr_wheel, x, y, yaw_vector)
+        fl_wheel = self.transform(fl_wheel, x, y, yaw_vector)
+        rr_wheel = self.transform(self.wheel_format, x, y, yaw_vector)
+        rl_wheel = self.transform(self.rl_wheel, x, y, yaw_vector)
 
-        # Rotational transformation
-        outline = (outline.dot(yaw_vector)).T
-        fr_wheel = (fr_wheel.dot(yaw_vector)).T
-        fl_wheel = (fl_wheel.dot(yaw_vector)).T
-        rr_wheel = (rr_wheel.dot(yaw_vector)).T
-        rl_wheel = (rl_wheel.dot(yaw_vector)).T
-
-        # Translate the car
-        outline[0, :] += x
-        outline[1, :] += y
-
-        fr_wheel[0, :] += x
-        fr_wheel[1, :] += y
-
-        rr_wheel[0, :] += x
-        rr_wheel[1, :] += y
-
-        fl_wheel[0, :] += x
-        fl_wheel[1, :] += y
-
-        rl_wheel[0, :] += x
-        rl_wheel[1, :] += y
-
-        return outline, fr_wheel, rr_wheel, fl_wheel, rl_wheel
+        return outlines, fr_wheel, rr_wheel, fl_wheel, rl_wheel
 
 def main():
 
@@ -116,16 +113,13 @@ def main():
     colour = 'black'
 
     desc = Description(overall_length, overall_width, rear_overhang, tyre_diameter, tyre_width, axle_track, wheelbase)
-    outline_plot, fr_plot, rr_plot, fl_plot, rl_plot = desc.plot_car(30.0, -10.0, np.pi/4, np.deg2rad(25))
+    desc_plots = desc.plot_car(30.0, -10.0, np.pi/4, np.deg2rad(25))
     
     ax = plt.axes()
     ax.set_aspect('equal')
 
-    ax.plot(*outline_plot, color=colour)
-    ax.plot(*fr_plot, color=colour)
-    ax.plot(*rr_plot, color=colour)
-    ax.plot(*fl_plot, color=colour)
-    ax.plot(*rl_plot, color=colour)
+    for desc_plot in desc_plots:
+        ax.plot(*desc_plot, color=colour)
 
     plt.show()
 
