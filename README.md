@@ -1,11 +1,14 @@
 # Kinematic Bicycle Model
+
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/winstxnhdw/KinematicBicycleModel.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/KinematicBicycleModel/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/winstxnhdw/KinematicBicycleModel.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/KinematicBicycleModel/context:python)
+
 <div align="center">
 	<img src="resources/animation.gif" />
 </div>
    
 ## Abstract
+
 A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a compromise between the non-linear and linear bicycle models for high-speed integration of the library with little configuration.
 
 ```yaml
@@ -33,28 +36,36 @@ At every time step
 ```
 
 ## Advantages
+
 - The model allows the vehicle to come to rest without passing the model a negative acceleration; similar to the non-linear bicycle.
 - This lightweight model is able to accurately represent a vehicle with no slip or tire stiffness.
 
 ## Limitations
+
 Just like with all other bicycle models, this model is a discrete model and loses its accuracy when the time step is set too large or the vehicle is made to travel at unreasonably high speeds. Usually, the FPS of the simulation should be set to the highest possible value for the greatest accuracy. However, for rendering high-quality GIFs, 50 FPS is found to be most optimal.
 
 ## Requirements
+
 ```bash
-# Install NumPy
-$ pip install numpy
+pip install numpy
 ```
 
 ## Demo
-```bash
-# Install requirements.txt
-$ pip install -r requirements.txt
 
-# Play the animation
-$ python animation.py
+Install the requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+Play the animation
+
+```bash
+python animation.py
 ```
 
 ## Concept
+
 To simplify the equations, we perform all calculations from the rear axle.
 <div align="center">
 	<img src="resources/KinematicBicycleModel.png" />
