@@ -1,3 +1,9 @@
-import math as m
+from math import atan2, sin, cos
 
-normalise_angle = lambda angle : m.atan2(m.sin(angle), m.cos(angle))
+"""
+:param angle:       (float) angle [rad]
+
+:return angle:      (float) angle [rad]
+"""
+
+normalise_angle = lambda angle : atan2(sin(angle), cos(angle))
