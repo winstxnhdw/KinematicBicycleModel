@@ -67,6 +67,7 @@ python animation.py
 ## Concept
 
 To simplify the equations, we perform all calculations from the rear axle.
+
 <div align="center">
 	<img src="resources/KinematicBicycleModel.png" />
 </div>
