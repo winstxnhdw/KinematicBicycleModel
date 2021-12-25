@@ -4,7 +4,7 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/winstxnhdw/KinematicBicycleModel.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/KinematicBicycleModel/context:python)
 
 <div align="center">
-	<img src="resources/animation.gif" />
+	<img src="resources/animation_wide.gif" />
 </div>
    
 ## Abstract
