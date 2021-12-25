@@ -17,7 +17,8 @@ class Simulation:
         fps = 50.0
 
         self.dt = 1/fps
-        self.map_size = 40
+        self.map_size_x = 70
+        self.map_size_y = 40
         self.frames = 2500
         self.loop = False
 
@@ -116,8 +117,8 @@ def main():
     def animate(frame):
 
         # Camera tracks car
-        ax.set_xlim(car.x - sim.map_size, car.x + sim.map_size)
-        ax.set_ylim(car.y - sim.map_size, car.y + sim.map_size)
+        ax.set_xlim(car.x - sim.map_size_x, car.x + sim.map_size_x)
+        ax.set_ylim(car.y - sim.map_size_y, car.y + sim.map_size_y)
 
         # Drive and draw car
         car.drive()
@@ -138,7 +139,7 @@ def main():
 
         plt.title(f'{sim.dt*frame:.2f}s', loc='right')
         plt.xlabel(f'Speed: {car.v:.2f} m/s', loc='left')
-        # plt.savefig(f'fig/visualisation_{frame:04}.png')
+        # plt.savefig(f'image/visualisation_{frame:03}.png', dpi=300)
 
         return outline, fr, rr, fl, rl, rear_axle, target,
 

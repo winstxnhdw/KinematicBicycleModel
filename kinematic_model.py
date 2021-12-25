@@ -10,26 +10,26 @@ class KinematicBicycleModel():
         2D Kinematic Bicycle Model
 
         At initialisation
-        :param wheelbase:       (float) vehicle's wheelbase [m]
-        :param max_steer:       (float) vehicle's steering limits [rad]
-        :param dt:              (float) discrete time period [s]
-        :param c_r:             (float) vehicle's coefficient of resistance 
-        :param c_a:             (float) vehicle's aerodynamic coefficient
+        :param wheelbase:           (float) vehicle's wheelbase [m]
+        :param max_steer:           (float) vehicle's steering limits [rad]
+        :param dt:                  (float) discrete time period [s]
+        :param c_r:                 (float) vehicle's coefficient of resistance 
+        :param c_a:                 (float) vehicle's aerodynamic coefficient
     
         At every time step  
-        :param x:               (float) vehicle's x-coordinate [m]
-        :param y:               (float) vehicle's y-coordinate [m]
-        :param yaw:             (float) vehicle's heading [rad]
-        :param velocity:        (float) vehicle's velocity in the x-axis [m/s]
-        :param throttle:        (float) vehicle's accleration [m/s^2]
-        :param delta:           (float) vehicle's steering angle [rad]
+        :param x:                   (float) vehicle's x-coordinate [m]
+        :param y:                   (float) vehicle's y-coordinate [m]
+        :param yaw:                 (float) vehicle's heading [rad]
+        :param velocity:            (float) vehicle's velocity in the x-axis [m/s]
+        :param throttle:            (float) vehicle's accleration [m/s^2]
+        :param delta:               (float) vehicle's steering angle [rad]
     
-        :return x:              (float) vehicle's x-coordinate [m]
-        :return y:              (float) vehicle's y-coordinate [m]
-        :return yaw:            (float) vehicle's heading [rad]
-        :return velocity:       (float) vehicle's velocity in the x-axis [m/s]
-        :return delta:          (float) vehicle's steering angle [rad]
-        :return omega:          (float) vehicle's angular velocity [rad/s]
+        :return new_x:              (float) vehicle's x-coordinate [m]
+        :return new_y:              (float) vehicle's y-coordinate [m]
+        :return new_yaw:            (float) vehicle's heading [rad]
+        :return new_velocity:       (float) vehicle's velocity in the x-axis [m/s]
+        :return steering_angle:     (float) vehicle's steering angle [rad]
+        :return angular_velocity:   (float) vehicle's angular velocity [rad/s]
         """
 
         self.dt = dt
@@ -38,27 +38,24 @@ class KinematicBicycleModel():
         self.c_r = c_r
         self.c_a = c_a
 
-    def kinematic_model(self, x, y, yaw, velocity, throttle, delta):
+    def kinematic_model(self, x, y, yaw, velocity, throttle, steering_angle):
 
         # Compute the local velocity in the x-axis
-        f_load = velocity * (self.c_r + self.c_a * velocity)
-        velocity += self.dt * (throttle - f_load)
+        friction = velocity * (self.c_r + self.c_a * velocity)
+        new_velocity = velocity + self.dt * (throttle - friction)
 
-        # Compute the radius and angular velocity of the kinematic bicycle model
-        delta = clip(delta, -self.max_steer, self.max_steer)
+        # Limit steering angle to physical vehicle limits
+        steering_angle = clip(steering_angle, -self.max_steer, self.max_steer)
 
-        # Compute the state change rate
-        x_dot = velocity * cos(yaw)
-        y_dot = velocity * sin(yaw)
-        omega = velocity * tan(delta) / self.wheelbase
+        # Compute the angular velocity
+        angular_velocity = velocity * tan(steering_angle) / self.wheelbase
 
         # Compute the final state using the discrete time model
-        x += x_dot * self.dt
-        y += y_dot * self.dt
-        yaw += omega * self.dt
-        yaw = normalise_angle(yaw)
+        new_x = x + velocity * cos(yaw) * self.dt
+        new_y = y + velocity * sin(yaw) * self.dt
+        new_yaw = normalise_angle(yaw + angular_velocity * self.dt)
         
-        return x, y, yaw, velocity, delta, omega
+        return new_x, new_y, new_yaw, new_velocity, steering_angle, angular_velocity
 
 def main():
 
