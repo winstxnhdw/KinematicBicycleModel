@@ -1,4 +1,5 @@
 import numpy as np
+from math import cos, sin
 
 class Description:
 
@@ -61,8 +62,8 @@ class Description:
 
     def get_rotation_matrix(self, angle: float):
 
-        return np.array([( np.cos(angle), np.sin(angle)),
-                         (-np.sin(angle), np.cos(angle))])
+        return np.array([( cos(angle), sin(angle)),
+                         (-sin(angle), cos(angle))])
 
     def transform(self, point: np.ndarray, angle_vector: np.ndarray, x: float, y: float):
 
