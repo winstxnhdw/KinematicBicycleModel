@@ -5,7 +5,8 @@ from libs.normalise_angle import normalise_angle
 
 class KinematicBicycleModel():
 
-    def __init__(self, wheelbase=1.0, max_steer=0.7, dt=0.05, c_r=0.0, c_a=0.0):
+    def __init__(self, wheelbase: float, max_steer: float, dt: float=0.05, c_r: float=0.0, c_a: float=0.0):
+        
         """
         2D Kinematic Bicycle Model
 
@@ -38,7 +39,7 @@ class KinematicBicycleModel():
         self.c_r = c_r
         self.c_a = c_a
 
-    def kinematic_model(self, x, y, yaw, velocity, throttle, steering_angle):
+    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, steering_angle: float):
 
         # Compute the local velocity in the x-axis
         friction = velocity * (self.c_r + self.c_a * velocity)
