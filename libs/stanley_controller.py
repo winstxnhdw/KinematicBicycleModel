@@ -100,10 +100,3 @@ class StanleyController:
         limited_steering_angle = np.clip(desired_steering_angle, -self.max_steer, self.max_steer)
 
         return limited_steering_angle, target_index, crosstrack_error
-
-def main():
-
-    print("This script is not meant to be executable, and should be used as a library.")
-
-if __name__ == "__main__":
-    main()

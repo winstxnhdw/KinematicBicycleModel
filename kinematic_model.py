@@ -57,10 +57,3 @@ class KinematicBicycleModel():
         new_yaw = normalise_angle(yaw + angular_velocity * self.dt)
         
         return new_x, new_y, new_yaw, new_velocity, steering_angle, angular_velocity
-
-def main():
-
-    print("This script is not meant to be executable, and should be used as a library.")
-
-if __name__ == "__main__":
-    main()
