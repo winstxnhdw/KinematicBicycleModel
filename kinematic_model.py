@@ -39,7 +39,8 @@ class KinematicBicycleModel():
         self.c_r = c_r
         self.c_a = c_a
 
-    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, steering_angle: float):
+    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, 
+                        steering_angle: float) -> tuple[float, float, float, float, float, float]:
 
         # Compute the local velocity in the x-axis
         friction = velocity * (self.c_r + self.c_a * velocity)
