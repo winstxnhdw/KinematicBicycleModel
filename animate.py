@@ -1,14 +1,14 @@
 import os
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import random as rand
 
-from kinematic_model import KinematicBicycleModel
+from math import radians
 from matplotlib.animation import FuncAnimation
 from libs.stanley_controller import StanleyController
 from libs.car_description import Description
 from libs.cubic_spline_interpolator import generate_cubic_spline
+from kinematic_model import KinematicBicycleModel
 
 class Simulation:
 
@@ -48,7 +48,7 @@ class Car:
         self.delta = 0.0
         self.omega = 0.0
         self.wheelbase = 2.96
-        self.max_steer = np.deg2rad(33)
+        self.max_steer = radians(33)
         self.dt = dt
         self.c_r = 0.01
         self.c_a = 2.0
@@ -85,6 +85,7 @@ class Car:
         os.system('cls' if os.name=='nt' else 'clear')
         print(f"Cross-track term: {self.crosstrack_error}")
 
+def init_anim(): pass
 def animate(frame, *args):
 
     ax, sim, path, car, desc, outline, fr, rr, fl, rl, rear_axle, annotation, target = args
@@ -145,7 +146,7 @@ def main():
 
     fargs = (ax, sim, path, car, desc, outline, fr, rr, fl, rl, rear_axle, annotation, target)
     
-    _ = FuncAnimation(fig, animate, frames=sim.frames, fargs=fargs, interval=interval, repeat=sim.loop)
+    _ = FuncAnimation(fig, animate, frames=sim.frames, init_func=init_anim, fargs=fargs, interval=interval, repeat=sim.loop)
     # anim.save('animation.gif', writer='imagemagick', fps=50)
     
     plt.grid()
