@@ -85,6 +85,37 @@ class Car:
         os.system('cls' if os.name=='nt' else 'clear')
         print(f"Cross-track term: {self.crosstrack_error}")
 
+def animate(frame, *args):
+
+    ax, sim, path, car, desc, outline, fr, rr, fl, rl, rear_axle, annotation, target = args
+
+    # Camera tracks car
+    ax.set_xlim(car.x - sim.map_size_x, car.x + sim.map_size_x)
+    ax.set_ylim(car.y - sim.map_size_y, car.y + sim.map_size_y)
+
+    # Drive and draw car
+    car.drive()
+    outline_plot, fr_plot, rr_plot, fl_plot, rl_plot = desc.plot_car(car.x, car.y, car.yaw, car.delta)
+    outline.set_data(*outline_plot)
+    fr.set_data(*fr_plot)
+    rr.set_data(*rr_plot)
+    fl.set_data(*fl_plot)
+    rl.set_data(*rl_plot)
+    rear_axle.set_data(car.x, car.y)
+
+    # Show car's target
+    target.set_data(path.px[car.target_id], path.py[car.target_id])
+
+    # Annotate car's coordinate above car
+    annotation.set_text(f'{car.x:.1f}, {car.y:.1f}')
+    annotation.set_position((car.x, car.y + 5))
+
+    plt.title(f'{sim.dt*frame:.2f}s', loc='right')
+    plt.xlabel(f'Speed: {car.v:.2f} m/s', loc='left')
+    # plt.savefig(f'image/visualisation_{frame:03}.png', dpi=300)
+
+    return outline, fr, rr, fl, rl, rear_axle, target,
+
 def main():
     
     sim = Simulation()
@@ -112,39 +143,12 @@ def main():
     rl, = ax.plot([], [], color=car.colour)
     rear_axle, = ax.plot(car.x, car.y, '+', color=car.colour, markersize=2)
 
-    plt.grid()
+    fargs = (ax, sim, path, car, desc, outline, fr, rr, fl, rl, rear_axle, annotation, target)
     
-    def animate(frame):
-
-        # Camera tracks car
-        ax.set_xlim(car.x - sim.map_size_x, car.x + sim.map_size_x)
-        ax.set_ylim(car.y - sim.map_size_y, car.y + sim.map_size_y)
-
-        # Drive and draw car
-        car.drive()
-        outline_plot, fr_plot, rr_plot, fl_plot, rl_plot = desc.plot_car(car.x, car.y, car.yaw, car.delta)
-        outline.set_data(*outline_plot)
-        fr.set_data(*fr_plot)
-        rr.set_data(*rr_plot)
-        fl.set_data(*fl_plot)
-        rl.set_data(*rl_plot)
-        rear_axle.set_data(car.x, car.y)
-
-        # Show car's target
-        target.set_data(path.px[car.target_id], path.py[car.target_id])
-
-        # Annotate car's coordinate above car
-        annotation.set_text(f'{car.x:.1f}, {car.y:.1f}')
-        annotation.set_position((car.x, car.y + 5))
-
-        plt.title(f'{sim.dt*frame:.2f}s', loc='right')
-        plt.xlabel(f'Speed: {car.v:.2f} m/s', loc='left')
-        # plt.savefig(f'image/visualisation_{frame:03}.png', dpi=300)
-
-        return outline, fr, rr, fl, rl, rear_axle, target,
-
-    _ = FuncAnimation(fig, animate, frames=sim.frames, interval=interval, repeat=sim.loop)
+    _ = FuncAnimation(fig, animate, frames=sim.frames, fargs=fargs, interval=interval, repeat=sim.loop)
     # anim.save('animation.gif', writer='imagemagick', fps=50)
+    
+    plt.grid()
     plt.show()
 
 if __name__ == '__main__':
