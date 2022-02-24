@@ -1,49 +1,48 @@
 import numpy as np
 
+from numpy import ndarray
+from numpy.typing import ArrayLike
 from scipy.interpolate import CubicSpline
 
-def initialise_cubic_spline(x, y, ds, bc_type):
+def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: ArrayLike, bc_type: str) -> tuple[CubicSpline, ndarray]:
 
     distance = np.concatenate((np.zeros(1), np.cumsum(np.hypot(np.ediff1d(x), np.ediff1d(y)))))
-    s = np.arange(0, distance[-1], ds)
     points = np.array([x, y]).T
+    s = np.arange(0, distance[-1], ds)
     cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
-
     return cs, s
 
-def generate_cubic_spline(x: np.ndarray, y: np.ndarray, ds: float=0.05, bc_type: str='natural'):
+def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[ndarray, ndarray, ndarray, ndarray]:
     
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
 
-    # dx = dcs[0],  dy = dcs[1], ddx = ddcs[0],  ddy = ddcs[1]
-    dcs = cs.derivative(1)(s).T
-    yaw = np.arctan2(dcs[1], dcs[0])
+    dx, dy = cs.derivative(1)(s).T
+    yaw = np.arctan2(dy, dx)
 
-    ddcs = cs.derivative(2)(s).T
-    curvature = (ddcs[1]*dcs[0] - ddcs[0]*dcs[1]) / ((dcs[0]*dcs[0] + dcs[1]*dcs[1])**1.5)
+    ddx, ddy = cs.derivative(2)(s).T
+    curvature = (ddy*dx - ddx*dy) / ((dx*dx + dy*dy)**1.5)
 
-    cs_points = cs(s).T
+    cx, cy = cs(s).T
+    return cx, cy, yaw, curvature
 
-    return cs_points[0], cs_points[1], yaw, curvature
-
-def generate_cubic_path(x: np.ndarray, y: np.ndarray, ds: float=0.05, bc_type: str='natural'):
+def generate_cubic_path(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[ndarray, ndarray]:
 
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
-    cs_points = cs(s).T
-    return cs_points[0], cs_points[1]
-
-def calculate_spline_yaw(x: np.ndarray, y: np.ndarray, ds: float=0.05, bc_type: str='natural'):
+    cx, cy = cs(s).T
+    return cx, cy
+    
+def calculate_spline_yaw(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> ndarray:
     
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
-    dcs = cs.derivative(1)(s).T
-    return np.arctan2(dcs[1], dcs[0])
+    dx, dy = cs.derivative(1)(s).T
+    return np.arctan2(dy, dx)
 
-def calculate_spline_curvature(x: np.ndarray, y: np.ndarray, ds: float=0.05, bc_type: str='natural'):
+def calculate_spline_curvature(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> ndarray:
 
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
-    dcs = cs.derivative(1)(s).T
-    ddcs = cs.derivative(2)(s).T
-    return (ddcs[1]*dcs[0] - ddcs[0]*dcs[1]) / ((dcs[0]*dcs[0] + dcs[1]*dcs[1])**1.5)
+    dx, dy = cs.derivative(1)(s).T
+    ddx, ddy = cs.derivative(2)(s).T
+    return (ddy*dx - ddx*dy) / ((dx*dx + dy*dy)**1.5)
 
 def main():
     
