@@ -1,4 +1,6 @@
 import numpy as np
+
+from numpy import ndarray
 from math import cos, sin
 
 class Description:
@@ -23,11 +25,11 @@ class Description:
         :param yaw:                 (float) vehicle's heading [rad]
         :param steer:               (float) vehicle's steering angle [rad]
         
-        :return outlines:           (list) vehicle's outlines [x, y]
-        :return fr_wheel:           (list) vehicle's front-right axle [x, y]
-        :return rr_wheel:           (list) vehicle's rear-right axle [x, y]
-        :return fl_wheel:           (list) vehicle's front-left axle [x, y]
-        :return rl_wheel:           (list) vehicle's rear-right axle [x, y]
+        :return outlines:           (ndarray) vehicle's outlines [x, y]
+        :return fr_wheel:           (ndarray) vehicle's front-right axle [x, y]
+        :return rr_wheel:           (ndarray) vehicle's rear-right axle [x, y]
+        :return fl_wheel:           (ndarray) vehicle's front-left axle [x, y]
+        :return rl_wheel:           (ndarray) vehicle's rear-right axle [x, y]
         """
 
         centreline_to_wheel = axle_track / 2
@@ -39,16 +41,16 @@ class Description:
                                      ( rear_axle_to_front_bumper, -centreline_to_side),
                                      (-rear_overhang,             -centreline_to_side)])
 
-        wheel_vertices = np.array([(-tyre_diameter,  tyre_width - centreline_to_wheel),
-                                   ( tyre_diameter,  tyre_width - centreline_to_wheel),
-                                   ( tyre_diameter, -tyre_width - centreline_to_wheel),
-                                   (-tyre_diameter, -tyre_width - centreline_to_wheel)])
+        wheel_vertices = np.array([(-tyre_diameter,   tyre_width  - centreline_to_wheel),
+                                   ( tyre_diameter,   tyre_width  - centreline_to_wheel),
+                                   ( tyre_diameter, (-tyre_width) - centreline_to_wheel),
+                                   (-tyre_diameter, (-tyre_width) - centreline_to_wheel)])
 
         self.outlines = np.concatenate((vehicle_vertices, [vehicle_vertices[0]]))
 
         self.wheel_format = np.concatenate((wheel_vertices, [wheel_vertices[0]]))
         self.rl_wheel = self.wheel_format.copy()
-        self.rl_wheel[:,1] *= -1
+        self.rl_wheel[:, 1] *= -1
         self.fl_wheel = self.rl_wheel.copy()
         self.fl_wheel[:, 0] += wheelbase 
         self.fr_wheel = self.wheel_format.copy()
@@ -60,23 +62,23 @@ class Description:
         self.fl_wheel_centre = np.array([(self.fl_wheel[0][0] + self.fl_wheel[2][0]) / 2,
                                          (self.fl_wheel[0][1] + self.fl_wheel[2][1]) / 2])
 
-    def get_rotation_matrix(self, angle: float):
+    def get_rotation_matrix(self, angle: float) -> ndarray:
 
         return np.array([( cos(angle), sin(angle)),
                          (-sin(angle), cos(angle))])
 
-    def transform(self, point: np.ndarray, angle_vector: np.ndarray, x: float, y: float):
+    def transform(self, point: ndarray, angle_vector: ndarray, x: float, y: float) -> ndarray:
 
         # Rotational transform
         point = point.dot(angle_vector).T
 
         # Position translation
-        point[0,:] += x
-        point[1,:] += y
+        point[0, :] += x
+        point[1, :] += y
         
         return point
 
-    def plot_car(self, x: float, y: float, yaw: float, steer: float):
+    def plot_car(self, x: float, y: float, yaw: float, steer: float) -> tuple[ndarray, ndarray, ndarray, ndarray, ndarray]:
 
         # Rotation matrices
         yaw_vector   = self.get_rotation_matrix(yaw)
