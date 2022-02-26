@@ -1,6 +1,5 @@
 import numpy as np
 
-from numpy import ndarray
 from math import cos, sin
 
 class Description:
@@ -62,12 +61,12 @@ class Description:
         self.fl_wheel_centre = np.array([(self.fl_wheel[0][0] + self.fl_wheel[2][0]) / 2,
                                          (self.fl_wheel[0][1] + self.fl_wheel[2][1]) / 2])
 
-    def get_rotation_matrix(self, angle: float) -> ndarray:
+    def get_rotation_matrix(self, angle: float) -> np.ndarray:
 
         return np.array([( cos(angle), sin(angle)),
                          (-sin(angle), cos(angle))])
 
-    def transform(self, point: ndarray, angle_vector: ndarray, x: float, y: float) -> ndarray:
+    def transform(self, point: np.ndarray, angle_vector: np.ndarray, x: float, y: float) -> np.ndarray:
 
         # Rotational transform
         point = point.dot(angle_vector).T
@@ -78,7 +77,7 @@ class Description:
         
         return point
 
-    def plot_car(self, x: float, y: float, yaw: float, steer: float) -> tuple[ndarray, ndarray, ndarray, ndarray, ndarray]:
+    def plot_car(self, x: float, y: float, yaw: float, steer: float) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
 
         # Rotation matrices
         yaw_vector   = self.get_rotation_matrix(yaw)
