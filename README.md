@@ -46,6 +46,8 @@ Just like with all other bicycle models, this model is a discrete model and lose
 
 ## Requirements
 
+Supports Python 3.10 or greater.
+
 ```bash
 pip install numpy
 ```
