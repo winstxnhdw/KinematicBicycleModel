@@ -102,21 +102,21 @@ class Fargs:
         self.target = target
 
 def init_anim(): pass
-def animate(frame, Fargs):
+def animate(frame, fargs):
 
-    ax = Fargs.ax
-    sim = Fargs.sim
-    path = Fargs.path
-    car = Fargs.car
-    desc = Fargs.desc
-    outline = Fargs.outline
-    fr = Fargs.fr
-    fl = Fargs.fl
-    rr = Fargs.rr
-    rl = Fargs.rl
-    rear_axle = Fargs.rear_axle
-    annotation = Fargs.annotation
-    target = Fargs.target
+    ax = fargs.ax
+    sim = fargs.sim
+    path = fargs.path
+    car = fargs.car
+    desc = fargs.desc
+    outline = fargs.outline
+    fr = fargs.fr
+    fl = fargs.fl
+    rr = fargs.rr
+    rl = fargs.rl
+    rear_axle = fargs.rear_axle
+    annotation = fargs.annotation
+    target = fargs.target
 
     # Camera tracks car
     ax.set_xlim(car.x - sim.map_size_x, car.x + sim.map_size_x)
