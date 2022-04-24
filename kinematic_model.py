@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from numpy import cos, sin, tan, clip
 from libs import normalise_angle
 
