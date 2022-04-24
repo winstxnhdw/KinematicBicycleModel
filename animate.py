@@ -6,8 +6,7 @@ import random as rand
 from math import radians
 from matplotlib.animation import FuncAnimation
 from libs.stanley_controller import StanleyController
-from libs import CarDescription
-from libs.cubic_spline_interpolator import generate_cubic_spline
+from libs import CarDescription, generate_cubic_spline
 from kinematic_model import KinematicBicycleModel
 
 class Simulation:

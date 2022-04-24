@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from numpy import cos, sin, tan, clip
-from libs.normalise_angle import normalise_angle
+from libs import normalise_angle
 
 class KinematicBicycleModel():
 
