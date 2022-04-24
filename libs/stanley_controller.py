@@ -1,7 +1,7 @@
 import numpy as np
 
 from math import sin, cos, atan2
-from libs.normalise_angle import normalise_angle
+from libs import normalise_angle
 
 class StanleyController:
 
