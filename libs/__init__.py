@@ -1,2 +1,1 @@
 from libs.car_description.car_description import CarDescription
-from libs.normalise_angle.normalise_angle import normalise_angle
