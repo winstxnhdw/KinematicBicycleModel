@@ -1,10 +1,11 @@
 import os
-import matplotlib.pyplot as plt
-import pandas as pd
-import random as rand
 
 from math import radians
+from pandas import read_csv
+from random import uniform
+from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
+
 from libs.stanley_controller import StanleyController
 from libs import CarDescription, generate_cubic_spline
 from kinematic_model import KinematicBicycleModel
@@ -27,7 +28,7 @@ class Path:
 
         # Get path to waypoints.csv
         dir_path = 'data/waypoints.csv'
-        df = pd.read_csv(dir_path)
+        df = read_csv(dir_path)
 
         x = df['X-axis'].values
         y = df['Y-axis'].values
@@ -77,7 +78,7 @@ class Car:
 
     def drive(self):
         
-        throttle = rand.uniform(150, 200)
+        throttle = uniform(150, 200)
         self.delta, self.target_id, self.crosstrack_error = self.tracker.stanley_control(self.x, self.y, self.yaw, self.v, self.delta)
         self.x, self.y, self.yaw, self.v, _, _ = self.kbm.kinematic_model(self.x, self.y, self.yaw, self.v, throttle, self.delta)
 
