@@ -1,7 +1,7 @@
 import os
+import csv
 
 from math import radians
-from pandas import read_csv
 from random import uniform
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -27,13 +27,11 @@ class Path:
     def __init__(self):
 
         # Get path to waypoints.csv
-        dir_path = 'data/waypoints.csv'
-        df = read_csv(dir_path)
+        with open('data/waypoints.csv', newline='') as f:
+            rows = list(csv.reader(f, delimiter=','))
 
-        x = df['X-axis'].values
-        y = df['Y-axis'].values
         ds = 0.05
-
+        x, y = [[float(i) for i in row] for row in zip(*rows[1:])]
         self.px, self.py, self.pyaw, _ = generate_cubic_spline(x, y, ds)
 
 class Car:
@@ -85,10 +83,40 @@ class Car:
         os.system('cls' if os.name=='nt' else 'clear')
         print(f"Cross-track term: {self.crosstrack_error}")
 
-def init_anim(): pass
-def animate(frame, *args):
+class Fargs:
 
-    ax, sim, path, car, desc, outline, fr, rr, fl, rl, rear_axle, annotation, target = args
+    def __init__(self, ax, sim, path, car, desc, outline, fr, fl, rr, rl, rear_axle, annotation, target):
+
+        self.ax = ax
+        self.sim = sim
+        self.path = path
+        self.car = car
+        self.desc = desc
+        self.outline = outline
+        self.fr = fr
+        self.fl = fl
+        self.rr = rr
+        self.rl = rl
+        self.rear_axle = rear_axle
+        self.annotation = annotation
+        self.target = target
+
+def init_anim(): pass
+def animate(frame, Fargs):
+
+    ax = Fargs.ax
+    sim = Fargs.sim
+    path = Fargs.path
+    car = Fargs.car
+    desc = Fargs.desc
+    outline = Fargs.outline
+    fr = Fargs.fr
+    fl = Fargs.fl
+    rr = Fargs.rr
+    rl = Fargs.rl
+    rear_axle = Fargs.rear_axle
+    annotation = Fargs.annotation
+    target = Fargs.target
 
     # Camera tracks car
     ax.set_xlim(car.x - sim.map_size_x, car.x + sim.map_size_x)
@@ -144,8 +172,24 @@ def main():
     rl, = ax.plot([], [], color=car.colour)
     rear_axle, = ax.plot(car.x, car.y, '+', color=car.colour, markersize=2)
 
-    fargs = (ax, sim, path, car, desc, outline, fr, rr, fl, rl, rear_axle, annotation, target)
-    
+    fargs = [
+        Fargs(
+            ax=ax,
+            sim=sim,
+            path=path,
+            car=car,
+            desc=desc,
+            outline=outline,
+            fr=fr,
+            fl=fl,
+            rr=rr,
+            rl=rl,
+            rear_axle=rear_axle,
+            annotation=annotation,
+            target=target
+        )
+    ]
+
     _ = FuncAnimation(fig, animate, frames=sim.frames, init_func=init_anim, fargs=fargs, interval=interval, repeat=sim.loop)
     # anim.save('animation.gif', writer='imagemagick', fps=50)
     
