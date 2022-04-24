@@ -1,0 +1,3 @@
+[submodule "libs/car_description"]
+	path = libs/car_description
+	url = https://gist.github.com/570507d030c3d15524e9a559555608a1.git

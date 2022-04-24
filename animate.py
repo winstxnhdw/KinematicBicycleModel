@@ -6,7 +6,7 @@ import random as rand
 from math import radians
 from matplotlib.animation import FuncAnimation
 from libs.stanley_controller import StanleyController
-from libs.car_description import Description
+from libs import CarDescription
 from libs.cubic_spline_interpolator import generate_cubic_spline
 from kinematic_model import KinematicBicycleModel
 
@@ -122,7 +122,7 @@ def main():
     sim = Simulation()
     path = Path()
     car = Car(path.px[0], path.py[0], path.pyaw[0], path.px, path.py, path.pyaw, sim.dt)
-    desc = Description(car.overall_length, car.overall_width, car.rear_overhang, car.tyre_diameter, car.tyre_width, car.axle_track, car.wheelbase)
+    desc = CarDescription(car.overall_length, car.overall_width, car.rear_overhang, car.tyre_diameter, car.tyre_width, car.axle_track, car.wheelbase)
 
     interval = sim.dt * 10**3
 
