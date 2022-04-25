@@ -57,7 +57,7 @@ pip install numpy
 Recursively git clone the repository
 
 ```bash
-git clone --recurse-submodules https://github.com/winstxnhdw/KinematicBicycleModel.git
+git clone --recursive https://github.com/winstxnhdw/KinematicBicycleModel.git
 ```
 
 Install the requirements
