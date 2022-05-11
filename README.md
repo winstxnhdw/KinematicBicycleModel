@@ -69,7 +69,7 @@ pip install -r requirements.txt
 Play the animation
 
 ```bash
-python animation.py
+python animate.py
 ```
 
 ## Concept
