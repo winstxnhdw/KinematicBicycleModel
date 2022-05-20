@@ -18,12 +18,11 @@ x \\
 y \\
 \theta \\
 v
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}
 v\cos{\theta} \\
 v\sin{\theta} \\
-\tfrac{v\tan{\delta}}{L} \\
+\frac{v\tan{\delta}}{L} \\
 a - f
 \end{pmatrix}
 $$
