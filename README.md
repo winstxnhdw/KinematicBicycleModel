@@ -4,12 +4,31 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/winstxnhdw/KinematicBicycleModel.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/KinematicBicycleModel/context:python)
 
 <div align="center">
-	<img src="resources/animation_wide.gif" />
+    <img src="resources/animation_wide.gif" />
 </div>
-   
+
 ## Abstract
 
-A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a compromise between the non-linear and linear bicycle models for high-speed integration of the library with little configuration.
+A python library for the Kinematic Bicycle model. The Kinematic Bicycle is a compromise between the non-linear and linear bicycle models for high-speed integration of the library with little configuration. The model can be defined with the following state-space representation,
+
+$$
+\frac{d}{dt}
+\begin{pmatrix}
+x \\
+y \\
+\theta \\
+v
+\end{pmatrix}
+=
+\begin{pmatrix}
+v\cos{\theta} \\
+v\sin{\theta} \\
+\tfrac{v\tan{\delta}}{L} \\
+a - f
+\end{pmatrix}
+$$
+
+where $v$ is the vehicle's velocity in the x-axis, $\theta$ is the vehicle's yaw, $\delta$ is the steering angle, $L$ is the vehicle's wheelbase, $a$ is the acceleration/throttle, $f$ is friction in the x-axis.
 
 ```yaml
 At initialisation
@@ -74,8 +93,4 @@ python animate.py
 
 ## Concept
 
-To simplify the equations, we perform all calculations from the rear axle.
-
-<div align="center">
-	<img src="resources/KinematicBicycleModel.png" />
-</div>
+Ironically, although our implementation is titled the `Kinematic Bicycel Model`, it does take into account some forward friction. This was never intended to improve the accuracy of the model. Instead, it provides a more intuitive API for implementation (Check out Dong Chen's [PathTrackingBicycle](https://github.com/Derekabc/PathTrackingBicycle) to understand what we mean). However, that is where the differences end. You can read about the bicycle model in full detail by Theers et al., [here](https://thomasfermi.github.io/Algorithms-for-Automated-Driving/Control/BicycleModel.html)
