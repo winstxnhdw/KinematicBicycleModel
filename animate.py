@@ -6,8 +6,7 @@ from random import uniform
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from libs.stanley_controller import StanleyController
-from libs import CarDescription, generate_cubic_spline
+from libs import StanleyController, CarDescription, generate_cubic_spline
 from kinematic_model import KinematicBicycleModel
 
 class Simulation:
