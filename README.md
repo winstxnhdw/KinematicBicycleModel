@@ -64,7 +64,7 @@ Just like with all other bicycle models, this model is a discrete model and lose
 
 ## Requirements
 
-To support type-hinting, Python 3.10 or greater is required.
+The model itself has zero dependencies and can run its fastest on vanilla python. However, to support type-hinting, Python 3.10 or greater is required.
 
 ## Demo
 
