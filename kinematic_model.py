@@ -1,7 +1,7 @@
 from math import cos, sin, tan
 from libs import normalise_angle
 
-class KinematicBicycleModel():
+class KinematicBicycleModel:
 
     def __init__(self, wheelbase: float, max_steer: float, dt: float=0.05, c_r: float=0.0, c_a: float=0.0):
         
