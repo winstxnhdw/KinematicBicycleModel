@@ -37,10 +37,10 @@ class KinematicBicycleModel:
         self.c_r = c_r
         self.c_a = c_a
 
-    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, steering_angle: float) -> tuple[float, float, float, float, float, float]:
+    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, steering_angle: float) -> tuple[float, ...]:
 
         # Compute the local velocity in the x-axis
-        friction = velocity*(self.c_r + self.c_a*velocity)
+        friction     = velocity * (self.c_r + self.c_a*velocity)
         new_velocity = velocity + self.dt*(throttle - friction)
 
         # Limit steering angle to physical vehicle limits
@@ -50,8 +50,8 @@ class KinematicBicycleModel:
         angular_velocity = velocity*tan(steering_angle) / self.wheelbase
 
         # Compute the final state using the discrete time model
-        new_x = x + velocity*cos(yaw)*self.dt
-        new_y = y + velocity*sin(yaw)*self.dt
+        new_x   = x + velocity*cos(yaw)*self.dt
+        new_y   = y + velocity*sin(yaw)*self.dt
         new_yaw = normalise_angle(yaw + angular_velocity*self.dt)
         
         return new_x, new_y, new_yaw, new_velocity, steering_angle, angular_velocity
