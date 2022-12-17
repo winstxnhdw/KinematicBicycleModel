@@ -6,16 +6,26 @@ class KinematicBicycleModel:
     def __init__(self, wheelbase: float, max_steer: float, dt: float=0.05, c_r: float=0.0, c_a: float=0.0):
         
         """
-        2D Kinematic Bicycle Model
+        Constructor for the 2D Kinematic Bicycle Model
 
-        At initialisation
         :param wheelbase:           (float) vehicle's wheelbase [m]
         :param max_steer:           (float) vehicle's steering limits [rad]
         :param dt:                  (float) discrete time period [s]
         :param c_r:                 (float) vehicle's coefficient of resistance 
         :param c_a:                 (float) vehicle's aerodynamic coefficient
-    
-        At every time step  
+        """
+
+        self.dt = dt
+        self.wheelbase = wheelbase
+        self.max_steer = max_steer
+        self.c_r = c_r
+        self.c_a = c_a
+
+    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, steering_angle: float) -> tuple[float, ...]:
+       
+        """
+        This method should updated at every time step
+
         :param x:                   (float) vehicle's x-coordinate [m]
         :param y:                   (float) vehicle's y-coordinate [m]
         :param yaw:                 (float) vehicle's heading [rad]
@@ -30,14 +40,6 @@ class KinematicBicycleModel:
         :return steering_angle:     (float) vehicle's steering angle [rad]
         :return angular_velocity:   (float) vehicle's angular velocity [rad/s]
         """
-
-        self.dt = dt
-        self.wheelbase = wheelbase
-        self.max_steer = max_steer
-        self.c_r = c_r
-        self.c_a = c_a
-
-    def kinematic_model(self, x: float, y: float, yaw: float, velocity: float, throttle: float, steering_angle: float) -> tuple[float, ...]:
 
         # Compute the local velocity in the x-axis
         friction     = velocity * (self.c_r + self.c_a*velocity)
