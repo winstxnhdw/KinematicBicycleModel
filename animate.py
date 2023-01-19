@@ -1,12 +1,13 @@
-import csv
-
+# pylint: skip-file
+from csv import reader
 from math import radians
-from random import uniform
+
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from libs import StanleyController, CarDescription, generate_cubic_spline
 from kinematic_model import KinematicBicycleModel
+from libs import CarDescription, StanleyController, generate_cubic_spline
+
 
 class Simulation:
 
@@ -20,34 +21,40 @@ class Simulation:
         self.frames = 2500
         self.loop = False
 
+
 class Path:
 
     def __init__(self):
 
         # Get path to waypoints.csv
         with open('data/waypoints.csv', newline='') as f:
-            rows = list(csv.reader(f, delimiter=','))
+            rows = list(reader(f, delimiter=','))
 
         ds = 0.05
         x, y = [[float(i) for i in row] for row in zip(*rows[1:])]
         self.px, self.py, self.pyaw, _ = generate_cubic_spline(x, y, ds)
 
+
 class Car:
 
-    def __init__(self, init_x, init_y, init_yaw, px, py, pyaw, dt):
+    def __init__(self, init_x, init_y, init_yaw, px, py, pyaw, delta_time):
 
         # Model parameters
         self.x = init_x
         self.y = init_y
         self.yaw = init_yaw
-        self.v = 0.0
+        self.delta_time = delta_time
+        self.time = 0.0
+        self.velocity = 0.0
         self.delta = 0.0
         self.omega = 0.0
         self.wheelbase = 2.96
         self.max_steer = radians(33)
-        self.dt = dt
-        self.c_r = 0.01
-        self.c_a = 2.0
+
+        # Acceleration parameters
+        target_velocity = 10.0
+        self.time_to_reach_target_velocity = 5.0
+        self.required_acceleration = target_velocity / self.time_to_reach_target_velocity
 
         # Tracker parameters
         self.px = px
@@ -70,15 +77,22 @@ class Car:
         self.colour = 'black'
 
         self.tracker = StanleyController(self.k, self.ksoft, self.kyaw, self.ksteer, self.max_steer, self.wheelbase, self.px, self.py, self.pyaw)
-        self.kbm = KinematicBicycleModel(self.wheelbase, self.max_steer, self.dt, self.c_r, self.c_a)
+        self.kinematic_bicycle_model = KinematicBicycleModel(self.wheelbase, self.max_steer, self.delta_time)
+
+    
+    def get_required_acceleration(self):
+
+        self.time += self.delta_time
+        return self.required_acceleration
 
     def drive(self):
         
-        throttle = uniform(150, 200)
-        self.delta, self.target_id, self.crosstrack_error = self.tracker.stanley_control(self.x, self.y, self.yaw, self.v, self.delta)
-        self.x, self.y, self.yaw, self.v, _, _ = self.kbm.kinematic_model(self.x, self.y, self.yaw, self.v, throttle, self.delta)
+        acceleration = 0 if self.time > self.time_to_reach_target_velocity else self.get_required_acceleration()
+        self.delta, self.target_id, self.crosstrack_error = self.tracker.stanley_control(self.x, self.y, self.yaw, self.velocity, self.delta)
+        self.x, self.y, self.yaw, self.velocity, _, _ = self.kinematic_bicycle_model.update(self.x, self.y, self.yaw, self.velocity, acceleration, self.delta)
 
         print(f"Cross-track term: {self.crosstrack_error}{' '*10}", end="\r")
+
 
 class Fargs:
 
@@ -97,6 +111,7 @@ class Fargs:
         self.rear_axle         = rear_axle
         self.annotation        = annotation
         self.target            = target
+
 
 def animate(frame, fargs):
 
@@ -136,10 +151,11 @@ def animate(frame, fargs):
     annotation.set_position((car.x, car.y + 5))
 
     plt.title(f'{sim.dt*frame:.2f}s', loc='right')
-    plt.xlabel(f'Speed: {car.v:.2f} m/s', loc='left')
+    plt.xlabel(f'Speed: {car.velocity:.2f} m/s', loc='left')
     # plt.savefig(f'image/visualisation_{frame:03}.png', dpi=300)
 
     return car_outline, front_right_wheel, rear_right_wheel, front_left_wheel, rear_left_wheel, rear_axle, target,
+
 
 def main():
     
@@ -168,29 +184,28 @@ def main():
     rear_axle,         = ax.plot(car.x, car.y, '+', color=car.colour, markersize=2)
     annotation         = ax.annotate(f'{car.x:.1f}, {car.y:.1f}', xy=(car.x, car.y + 5), color='black', annotation_clip=False)
 
-    fargs = [
-        Fargs(
-            ax=ax,
-            sim=sim,
-            path=path,
-            car=car,
-            car_description=car_description,
-            car_outline=car_outline,
-            front_right_wheel=front_right_wheel,
-            front_left_wheel=front_left_wheel,
-            rear_right_wheel=rear_right_wheel,
-            rear_left_wheel=rear_left_wheel,
-            rear_axle=rear_axle,
-            annotation=annotation,
-            target=target
-        )
-    ]
+    fargs = [Fargs(
+        ax=ax,
+        sim=sim,
+        path=path,
+        car=car,
+        car_description=car_description,
+        car_outline=car_outline,
+        front_right_wheel=front_right_wheel,
+        front_left_wheel=front_left_wheel,
+        rear_right_wheel=rear_right_wheel,
+        rear_left_wheel=rear_left_wheel,
+        rear_axle=rear_axle,
+        annotation=annotation,
+        target=target
+    )]
 
     _ = FuncAnimation(fig, animate, frames=sim.frames, init_func=lambda: None, fargs=fargs, interval=interval, repeat=sim.loop)
     # anim.save('animation.gif', writer='imagemagick', fps=50)
     
     plt.grid()
     plt.show()
+
 
 if __name__ == '__main__':
     main()
