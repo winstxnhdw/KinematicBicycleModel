@@ -2,6 +2,8 @@ from math import cos, sin, tan
 
 from libs import normalise_angle
 
+from typing import Tuple
+
 
 class KinematicBicycleModel:
     """
@@ -30,7 +32,7 @@ class KinematicBicycleModel:
         self.max_steer = max_steer
 
 
-    def update(self, x: float, y: float, yaw: float, velocity: float, acceleration: float, steering_angle: float) -> tuple[float, ...]:
+    def update(self, x: float, y: float, yaw: float, velocity: float, acceleration: float, steering_angle: float) -> Tuple[float, ...]:
         """
         Summary
         -------
