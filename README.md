@@ -63,7 +63,7 @@ The model itself has zero dependencies and can run its fastest on vanilla python
 Recursively git clone the repository
 
 ```bash
-git clone --recursive https://github.com/winstxnhdw/KinematicBicycleModel.git
+git clone --recursive https://github.com/RI-SE/PreMAT-Vehicle-Models.git
 ```
 
 Install the requirements
