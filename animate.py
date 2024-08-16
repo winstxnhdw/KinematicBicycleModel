@@ -145,10 +145,10 @@ def animate(frame, fargs):
     rear_right_wheel.set_data(*rr_plot)
     front_left_wheel.set_data(*fl_plot)
     rear_left_wheel.set_data(*rl_plot)
-    rear_axle.set_data(car.x, car.y)
+    rear_axle.set_data([car.x], [car.y])
 
     # Show car's target
-    target.set_data(path.px[car.target_id], path.py[car.target_id])
+    target.set_data([path.px[car.target_id]], [path.py[car.target_id]])
 
     # Annotate car's coordinate above car
     annotation.set_text(f'{car.x:.1f}, {car.y:.1f}')
