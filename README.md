@@ -34,7 +34,7 @@ At initialisation
 :param max_steer:           (float) vehicle's steering limits [rad]
 :param delta_time:          (float) discrete time period [s]
 
-At every time step  
+At every time step
 :param x:                   (float) vehicle's x-coordinate [m]
 :param y:                   (float) vehicle's y-coordinate [m]
 :param yaw:                 (float) vehicle's heading [rad]
@@ -66,16 +66,10 @@ Recursively git clone the repository
 git clone --recursive https://github.com/winstxnhdw/KinematicBicycleModel.git
 ```
 
-Install the requirements
-
-```bash
-pip install -r requirements.txt
-```
-
 Play the animation
 
 ```bash
-python animate.py
+uv run animate.py
 ```
 
 ## Concept
