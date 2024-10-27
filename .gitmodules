@@ -1,6 +1,3 @@
 [submodule "libs/car_description"]
 	path = libs/car_description
 	url = https://gist.github.com/570507d030c3d15524e9a559555608a1.git
-[submodule "libs/normalise_angle"]
-	path = libs/normalise_angle
-	url = https://gist.github.com/593105601d9199d75852b1584a610c02.git

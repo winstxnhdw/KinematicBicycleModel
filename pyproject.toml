@@ -1,17 +1,22 @@
 [project]
-name = "KinematicBicycleModel"
+name = "kbm"
 version = "0.1.0"
-description = "Add your description here"
+description = ""
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+requires-python = ">=3.9"
 
 [tool.uv]
-dev-dependencies = ["matplotlib>=3.9.2", "scipath"]
 reinstall-package = ["scipath"]
 
 [tool.uv.sources]
 scipath = { git = "https://github.com/winstxnhdw/scipath" }
+
+[dependency-groups]
+dev = [
+    "cython>=3.0.11",
+    "matplotlib>=3.9.2",
+    "scipath",
+]
 
 [tool.ruff]
 select = ["ALL"]
@@ -25,3 +30,7 @@ reportUnknownVariableType = false
 reportUnknownMemberType = false
 reportMissingTypeStubs = false
 reportPrivateUsage = false
+
+[build-system]
+requires = ["setuptools", "cython"]
+build-backend = "setuptools.build_meta"

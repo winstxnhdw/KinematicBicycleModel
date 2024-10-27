@@ -1,4 +1,2 @@
-from libs.car_description.car_description import CarDescription
-from libs.normalise_angle.normalise_angle import normalise_angle
-from libs.SciPyCubicSpline.cubic_spline_interpolator import generate_cubic_spline
-from libs.stanley_controller import StanleyController
+from libs.car_description.car_description import CarDescription as CarDescription
+from libs.stanley_controller import StanleyController as StanleyController

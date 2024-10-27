@@ -1,9 +1,8 @@
-# pylint: skip-file
 from csv import reader
 from dataclasses import dataclass
 from math import radians
 
-from kinematic_model import KinematicBicycleModel
+from kbm import KinematicBicycleModel
 from libs import CarDescription, StanleyController
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -29,7 +28,7 @@ class Path:
 
         points = [(float(row[0]), float(row[1])) for row in rows[1:]]
         path, self.pyaw, _ = create_cubic_path_2d(points, profile=Profile.NO_CURVATURE)
-        self.px, self.py = list(zip(*path, strict=True))
+        self.px, self.py = path.T
 
 
 class Car:
@@ -71,6 +70,7 @@ class Car:
         axle_track = 1.7
         rear_overhang = 0.5 * (overall_length - wheelbase)
 
+        self.kinematic_bicycle_model = KinematicBicycleModel(wheelbase, max_steer, self.delta_time)
         self.tracker = StanleyController(
             self.k,
             self.ksoft,
@@ -82,7 +82,7 @@ class Car:
             self.py,
             self.pyaw,
         )
-        self.kinematic_bicycle_model = KinematicBicycleModel(wheelbase, max_steer, self.delta_time)
+
         self.description = CarDescription(
             overall_length,
             overall_width,
@@ -93,7 +93,7 @@ class Car:
             wheelbase,
         )
 
-    def get_required_acceleration(self):
+    def get_required_acceleration(self) -> float:
         self.time += self.delta_time
         return self.required_acceleration
 
@@ -102,12 +102,28 @@ class Car:
 
     def drive(self):
         acceleration = 0 if self.time > self.time_to_reach_target_velocity else self.get_required_acceleration()
+
         self.wheel_angle, self.target_id, self.crosstrack_error = self.tracker.stanley_control(
-            self.x, self.y, self.yaw, self.velocity, self.wheel_angle
+            self.x,
+            self.y,
+            self.yaw,
+            self.velocity,
+            self.wheel_angle,
         )
-        self.x, self.y, self.yaw, self.velocity, _, _ = self.kinematic_bicycle_model.update(
-            self.x, self.y, self.yaw, self.velocity, acceleration, self.wheel_angle
+
+        vehicle_state = self.kinematic_bicycle_model.update(
+            self.x,
+            self.y,
+            self.yaw,
+            self.wheel_angle,
+            self.velocity,
+            acceleration,
         )
+
+        self.x = vehicle_state["x"]
+        self.y = vehicle_state["y"]
+        self.yaw = vehicle_state["yaw"]
+        self.velocity = vehicle_state["velocity"]
 
         print(f"Cross-track term: {self.crosstrack_error}{' '*10}", end="\r")
 

@@ -1,3 +1,5 @@
 *.pyc
+*.egg-info
+*.so
+*.c
 .vscode
-circle_wp_gen.py
