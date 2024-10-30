@@ -1,7 +1,7 @@
 # cython: language_level=3, cdivision=True
 
 from libc.math cimport atan2, cos, sin, tan
-
+from kbm.exceptions import NoNegativeValueError
 
 cdef packed struct VehicleState:
     long double x
@@ -19,10 +19,10 @@ cdef class KinematicBicycleModel:
 
     def __init__(self, const long double wheelbase, const long double max_steer, const long double delta_time=0.05):
         if delta_time <= 0:
-            raise ValueError("`delta_time` must be positive")
+            raise NoNegativeValueError("delta_time")
 
         if wheelbase <= 0:
-            raise ValueError("`wheelbase` must be positive")
+            raise NoNegativeValueError("wheelbase")
 
         self.delta_time = delta_time
         self.wheelbase = wheelbase
