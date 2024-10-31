@@ -9,7 +9,7 @@ class VehicleState(TypedDict):
     angular_velocity: ReadOnly[float]
 
 class KinematicBicycleModel:
-    def __init__(self, wheelbase: float, max_steer: float, delta_time: float = 0.05) -> None:
+    def __init__(self, *, wheelbase: float, max_steer: float, delta_time: float = 0.05) -> None:
         """
         Summary
         -------
@@ -28,6 +28,7 @@ class KinematicBicycleModel:
         """
     def update(
         self,
+        *,
         x: float,
         y: float,
         yaw: float,

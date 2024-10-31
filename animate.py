@@ -2,11 +2,12 @@ from csv import reader
 from dataclasses import dataclass
 from math import radians
 
-from kbm import KinematicBicycleModel
-from libs import CarDescription, StanleyController
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 from scipath import Profile, create_cubic_path_2d
+
+from kbm import KinematicBicycleModel
+from libs import CarDescription, StanleyController
 
 
 class Simulation:
@@ -70,7 +71,12 @@ class Car:
         axle_track = 1.7
         rear_overhang = 0.5 * (overall_length - wheelbase)
 
-        self.kinematic_bicycle_model = KinematicBicycleModel(wheelbase, max_steer, self.delta_time)
+        self.bicycle_model = KinematicBicycleModel(
+            wheelbase=wheelbase,
+            max_steer=max_steer,
+            delta_time=self.delta_time,
+        )
+
         self.tracker = StanleyController(
             self.k,
             self.ksoft,
@@ -111,13 +117,13 @@ class Car:
             self.wheel_angle,
         )
 
-        vehicle_state = self.kinematic_bicycle_model.update(
-            self.x,
-            self.y,
-            self.yaw,
-            self.wheel_angle,
-            self.velocity,
-            acceleration,
+        vehicle_state = self.bicycle_model.update(
+            x=self.x,
+            y=self.y,
+            yaw=self.yaw,
+            steer=self.wheel_angle,
+            velocity=self.velocity,
+            acceleration=acceleration,
         )
 
         self.x = vehicle_state["x"]

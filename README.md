@@ -42,7 +42,7 @@ The model is written entirely in [Cython](https://cython.org) and is completely 
 ```python
 from kbm import KinematicBicycleModel
 
-model = KinematicBicycleModel(wheelbase=2.96, max_steer = 0.57596, dt=0.05)
+model = KinematicBicycleModel(wheelbase=2.96, max_steer=0.57596, delta_time=0.05)
 state = model.update(
     x=0.0,
     y=0.0,
