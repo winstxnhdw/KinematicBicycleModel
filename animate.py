@@ -117,7 +117,7 @@ class Car:
             self.wheel_angle,
         )
 
-        vehicle_state = self.bicycle_model.update(
+        vehicle_state = self.bicycle_model.compute_state(
             x=self.x,
             y=self.y,
             yaw=self.yaw,

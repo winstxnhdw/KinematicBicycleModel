@@ -9,7 +9,7 @@
 
 ## Abstract
 
-A python library for the Kinematic Bicycle model. The model can be defined with the following state-space representation,
+A library for the Kinematic Bicycle model. The model can be defined with the following state-space representation,
 
 $$
 \frac{d}{dt}
@@ -27,7 +27,7 @@ a
 \end{pmatrix}
 $$
 
-where $v$ is the vehicle's velocity in the x-axis, $\theta$ is the vehicle's yaw, $\delta$ is the steering angle, $L$ is the vehicle's wheelbase, $a$ is the acceleration/throttle, $f$ is friction in the x-axis.
+where $v$ is the vehicle's velocity in the x-axis, $\theta$ is the vehicle's yaw, $\delta$ is the steering angle, $L$ is the vehicle's wheelbase and $a$ is the acceleration/throttle.
 
 ## Installation
 
@@ -37,13 +37,13 @@ pip install git+https://github.com/winstxnhdw/KinematicBicycleModel
 
 ## Usage
 
-The model is written entirely in [Cython](https://cython.org) and is completely typesafe. The following code sample demonstrates how to use the model.
+The model is written entirely in [Cython](https://cython.org), completely typesafe, and drops the Global Interpreter Lock (GIL) whenever possible. The following code sample demonstrates how to use the model.
 
 ```python
 from kbm import KinematicBicycleModel
 
 model = KinematicBicycleModel(wheelbase=2.96, max_steer=0.57596, delta_time=0.05)
-state = model.update(
+state = model.compute_state(
     x=0.0,
     y=0.0,
     yaw=0.0,
@@ -57,6 +57,29 @@ print(f"The vehicle is facing {state['yaw']} rad")
 print(f"The vehicle is steering at {state['steer']} rad")
 print(f"The vehicle is moving at {state['velocity']} m/s")
 print(f"The vehicle is turning at {state['angular_velocity']} rad/s")
+```
+
+Since the GIL is dropped, the model may take advantage of multithreaded parallelism. The following code sample demonstrates an example of this.
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+from random import uniform
+
+from kbm import KinematicBicycleModel
+
+model = KinematicBicycleModel(wheelbase=2.96, max_steer=0.57596, delta_time=0.05)
+random_steer_values = (uniform(-3.14159, 3.14159) for _ in range(1000))
+
+
+def compute_state(steer: float):
+    return model.compute_state(x=0.0, y=0.0, yaw=0.0, steer=steer, velocity=0.0, acceleration=5.0)
+
+
+state_with_highest_angular_velocity = max(
+    ThreadPoolExecutor().map(compute_state, random_steer_values),
+    key=lambda state: state["angular_velocity"],
+)
+
 ```
 
 ## Limitations
@@ -75,8 +98,3 @@ Play the animation
 
 ```bash
 uv run animate.py
-```
-
-## Concept
-
-Though our implementation is titled the `Kinematic Bicycle Model`, it does take into account some forward friction. This was never intended to improve the accuracy of the model. Instead, it provides a more intuitive API by removing the need to constantly control the input throttle. However, that is where the differences end. You can read about the bicycle model in full detail by Theers et al., [here](https://thomasfermi.github.io/Algorithms-for-Automated-Driving/Control/BicycleModel.html).

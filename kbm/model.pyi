@@ -13,20 +13,16 @@ class KinematicBicycleModel:
         """
         Summary
         -------
-        This class implements the 2D Kinematic Bicycle Model for vehicle dynamics
+        an implementation of the 2D Kinematic Bicycle Model for computing basic vehicle dynamics
 
         Attributes
         ----------
         wheelbase (float) : vehicle's wheelbase [m]
         max_steer (float) : vehicle's steering limits [rad]
         delta_time (float) : discrete time period [s]
-
-        Methods
-        -------
-        update(x, y, yaw, steer, velocity, acceleration) -> VehicleState
-            updates the vehicle's state using the kinematic bicycle model
         """
-    def update(
+
+    def compute_state(
         self,
         *,
         x: float,
@@ -39,7 +35,7 @@ class KinematicBicycleModel:
         """
         Summary
         -------
-        updates the vehicle's state using the kinematic bicycle model
+        computes the vehicle's state using the kinematic bicycle model
 
         Parameters
         ----------
