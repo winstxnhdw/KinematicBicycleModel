@@ -39,6 +39,9 @@ pip install git+https://github.com/winstxnhdw/KinematicBicycleModel
 
 The model is written entirely in [Cython](https://cython.org), completely typesafe, and drops the Global Interpreter Lock (GIL) whenever possible. The following code sample demonstrates how to use the model.
 
+> [!WARNING]\
+> This model is not picklable as it relies on `__cinit__` for fast initialisation.
+
 ```python
 from kbm import KinematicBicycleModel
 
