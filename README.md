@@ -9,7 +9,7 @@
 
 ## Abstract
 
-A library for the Kinematic Bicycle model. The model can be defined with the following state-space representation,
+This repository contains a implementation of the Kinematic Bicycle model. The model can be defined with the following state-space representation,
 
 $$
 \frac{d}{dt}
@@ -27,7 +27,7 @@ a
 \end{pmatrix}
 $$
 
-where $v$ is the vehicle's velocity in the x-axis, $\theta$ is the vehicle's yaw, $\delta$ is the steering angle, $L$ is the vehicle's wheelbase and $a$ is the acceleration/throttle.
+where $v$ is the vehicle's velocity in the x-axis, $\theta$ is the vehicle's yaw, $\delta$ is the steering angle, $L$ is the vehicle's wheelbase and $a$ is the acceleration/throttle. You may read more about the Kinematic Bicycle Model [here](https://thomasfermi.github.io/Algorithms-for-Automated-Driving/Control/BicycleModel.html).
 
 ## Installation
 
