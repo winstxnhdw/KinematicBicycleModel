@@ -1,4 +1,7 @@
-from typing import ReadOnly, TypedDict
+from typing import (
+    ReadOnly,  # pyright: ignore [reportAttributeAccessIssue]
+    TypedDict,
+)
 
 class VehicleState(TypedDict):
     x: ReadOnly[float]
