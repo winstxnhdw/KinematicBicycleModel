@@ -1,0 +1,20 @@
+name: Test
+
+on:
+  push:
+    paths:
+      - .github/workflows/main.yml
+      - pyproject.toml
+      - uv.lock
+      - kbm/**
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        python-version: [3.9, '3.10', 3.11, 3.12, 3.13]
+
+    uses: winstxnhdw/actions/.github/workflows/uv.yml@main
+    with:
+      python-version: ${{ matrix.python-version }}
+      disable-test: true

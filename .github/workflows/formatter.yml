@@ -1,0 +1,14 @@
+name: Format
+
+on:
+  push:
+    paths:
+      - .github/workflows/formatter.yml
+      - kbm/**
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    uses: winstxnhdw/actions/.github/workflows/format-python.yml@main
