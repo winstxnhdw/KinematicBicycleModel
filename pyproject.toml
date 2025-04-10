@@ -8,7 +8,7 @@ requires-python = ">=3.9"
 [dependency-groups]
 dev = [
     "cython>=3.0.11",
-    "matplotlib>=3.9.2",
+    "matplotlib<=3.10.1",
     "nodejs-wheel-binaries>=22.14.0",
     "pyright>=1.1.394",
     "ruff>=0.9.6",
@@ -32,12 +32,10 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "TC", "PLR0913", "PLC0414", "PYI021"]
+ignore = ["D", "PYI021", "PLC0414"]
 
 [tool.pyright]
 exclude = ["animate.py", "libs", ".venv"]
 typeCheckingMode = "strict"
 reportUnknownVariableType = false
-reportUnknownMemberType = false
 reportMissingTypeStubs = false
-reportPrivateUsage = false
