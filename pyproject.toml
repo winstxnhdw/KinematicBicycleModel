@@ -20,6 +20,10 @@ dev = [
 requires = ["setuptools", "cython"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+packages = ["kbm"]
+ext-modules = [{ name = "kbm.model", sources = ["kbm/model.pyx"] }]
+
 [tool.uv]
 reinstall-package = ["scipath"]
 
