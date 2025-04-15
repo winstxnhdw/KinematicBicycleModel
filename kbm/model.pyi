@@ -12,6 +12,10 @@ class VehicleState(TypedDict):
     angular_velocity: ReadOnly[float]
 
 class KinematicBicycleModel:
+    wheelbase: float
+    max_steer: float
+    delta_time: float
+
     def __init__(self, *, wheelbase: float, max_steer: float, delta_time: float = 0.05) -> None:
         """
         Summary

@@ -17,4 +17,3 @@ jobs:
     uses: winstxnhdw/actions/.github/workflows/uv.yml@main
     with:
       python-version: ${{ matrix.python-version }}
-      disable-test: true

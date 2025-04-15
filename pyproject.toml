@@ -11,6 +11,7 @@ dev = [
     "matplotlib<=3.10.1",
     "nodejs-wheel-binaries>=22.14.0",
     "pyright>=1.1.399",
+    "pytest>=8.3.5",
     "ruff>=0.11.5",
     "scipath",
     "setuptools>=78.1.0",
@@ -36,7 +37,7 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "PYI021", "PLC0414"]
+ignore = ["D", "INP001", "PYI021", "PLC0414", "PT013"]
 
 [tool.pyright]
 exclude = ["animate.py", "libs", ".venv"]
