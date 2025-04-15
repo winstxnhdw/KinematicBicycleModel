@@ -49,8 +49,8 @@ cdef class KinematicBicycleModel:
             angular_velocity = new_velocity * tan(new_steer) / self.wheelbase
             new_yaw = yaw + angular_velocity * self.delta_time
 
-            state.x = x + velocity * cos(new_yaw) * self.delta_time
-            state.y = y + velocity * sin(new_yaw) * self.delta_time
+            state.x = x + new_velocity * cos(new_yaw) * self.delta_time
+            state.y = y + new_velocity * sin(new_yaw) * self.delta_time
             state.yaw = atan2(sin(new_yaw), cos(new_yaw))
             state.steer = new_steer
             state.velocity = new_velocity
