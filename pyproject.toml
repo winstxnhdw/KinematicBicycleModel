@@ -40,6 +40,7 @@ select = ["ALL"]
 ignore = ["D", "INP001", "PYI021", "PLC0414", "PT013"]
 
 [tool.pyright]
+include = ["kbm"]
 exclude = ["animate.py", "libs", ".venv"]
 typeCheckingMode = "strict"
 reportUnknownVariableType = false
