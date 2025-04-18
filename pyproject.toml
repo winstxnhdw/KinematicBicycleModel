@@ -23,7 +23,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["kbm"]
-ext-modules = [{ name = "kbm.model", sources = ["kbm/model.pyx"] }]
+ext-modules = [{ name = "kbm.model", sources = ["kbm/model.pyx"], extra-compile-args = ["-O3"] }]
 
 [tool.uv]
 reinstall-package = ["scipath"]
@@ -37,7 +37,7 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "INP001", "PYI021", "PLC0414", "PT013"]
+ignore = ["D", "INP001", "PYI001", "PYI021", "PLC0414", "PT013"]
 
 [tool.pyright]
 include = ["kbm"]

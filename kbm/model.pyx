@@ -37,9 +37,11 @@ cdef class KinematicBicycleModel:
         cdef double new_velocity
         cdef double new_steer
         cdef double new_yaw
-        cdef VehicleState state
         cdef double velocity_delta
         cdef double angular_velocity
+        cdef double cos_new_yaw
+        cdef double sin_new_yaw
+        cdef VehicleState state
 
         with nogil:
             new_velocity = velocity + self.delta_time * acceleration
@@ -47,12 +49,14 @@ cdef class KinematicBicycleModel:
             angular_velocity = new_velocity * tan(new_steer) / self.wheelbase
             new_yaw = yaw + angular_velocity * self.delta_time
             velocity_delta = new_velocity * self.delta_time
+            cos_new_yaw = cos(new_yaw)
+            sin_new_yaw = sin(new_yaw)
 
-            state.x = x + velocity_delta * cos(new_yaw)
-            state.y = y + velocity_delta * sin(new_yaw)
-            state.yaw = atan2(sin(new_yaw), cos(new_yaw))
+            state.x = x + velocity_delta * cos_new_yaw
+            state.y = y + velocity_delta * sin_new_yaw
+            state.yaw = atan2(sin_new_yaw, cos_new_yaw)
             state.steer = new_steer
             state.velocity = new_velocity
             state.angular_velocity = angular_velocity
 
-        return state
+            return state
