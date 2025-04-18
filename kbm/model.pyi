@@ -1,7 +1,12 @@
-from typing import (
-    ReadOnly,  # pyright: ignore [reportAttributeAccessIssue]
-    TypedDict,
-)
+import sys
+from typing import Generic, TypedDict, TypeVar
+
+if sys.version_info >= (3, 13):
+    from typing import ReadOnly
+
+else:
+    T = TypeVar("T")
+    class ReadOnly(float, Generic[T]): ...
 
 class VehicleState(TypedDict):
     x: ReadOnly[float]
