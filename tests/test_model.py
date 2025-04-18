@@ -110,7 +110,7 @@ def test_negative_steer_limits(model: KinematicBicycleModel) -> None:
 def test_steer(model: KinematicBicycleModel) -> None:
     state = model.compute_state(x=0.0, y=0.0, yaw=0.0, steer=radians(30), velocity=10.0, acceleration=0.0)
 
-    assert state["x"] == 0.49667036872467174
+    assert state["x"] == 0.4966703687246717
     assert state["y"] == 0.057606812365367445
     assert state["yaw"] == 0.11547005383792515
     assert state["steer"] == radians(30)

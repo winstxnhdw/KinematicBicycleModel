@@ -18,9 +18,6 @@ cdef class KinematicBicycleModel:
     cdef readonly double delta_time
 
     def __cinit__(self, *, const long double wheelbase, const long double max_steer, const long double delta_time=0.05):
-        if delta_time <= 0:
-            raise NegativeValueError("delta_time")
-
         if wheelbase <= 0:
             raise NegativeValueError("wheelbase")
 
@@ -39,18 +36,20 @@ cdef class KinematicBicycleModel:
     ) noexcept:
         cdef double new_velocity
         cdef double new_steer
-        cdef double angular_velocity
         cdef double new_yaw
         cdef VehicleState state
+        cdef double velocity_delta
+        cdef double angular_velocity
 
         with nogil:
             new_velocity = velocity + self.delta_time * acceleration
             new_steer = self.max_steer if steer > self.max_steer else -self.max_steer if steer < -self.max_steer else steer
             angular_velocity = new_velocity * tan(new_steer) / self.wheelbase
             new_yaw = yaw + angular_velocity * self.delta_time
+            velocity_delta = new_velocity * self.delta_time
 
-            state.x = x + new_velocity * cos(new_yaw) * self.delta_time
-            state.y = y + new_velocity * sin(new_yaw) * self.delta_time
+            state.x = x + velocity_delta * cos(new_yaw)
+            state.y = y + velocity_delta * sin(new_yaw)
             state.yaw = atan2(sin(new_yaw), cos(new_yaw))
             state.steer = new_steer
             state.velocity = new_velocity
