@@ -12,7 +12,7 @@ dev = [
     "nodejs-wheel-binaries>=22.15.0",
     "pyright>=1.1.400",
     "pytest>=8.3.5",
-    "ruff>=0.11.7",
+    "ruff>=0.11.8",
     "scipath",
     "setuptools>=80.1.0",
 ]
