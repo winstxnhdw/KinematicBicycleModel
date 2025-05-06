@@ -28,8 +28,9 @@ class Path:
             rows = list(reader(f, delimiter=","))
 
         points = [(float(row[0]), float(row[1])) for row in rows[1:]]
-        path, self.pyaw, _ = create_cubic_path_2d(points, profile=Profile.NO_CURVATURE)
-        self.px, self.py = path.T
+        path = create_cubic_path_2d(points, profile=Profile.NO_CURVATURE)
+        self.pyaw = path["yaw"]
+        self.px, self.py = path["path"].T
 
 
 class Car:
