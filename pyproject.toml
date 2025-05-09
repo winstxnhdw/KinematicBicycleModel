@@ -14,7 +14,7 @@ dev = [
     "pytest>=8.3.5",
     "ruff>=0.11.9",
     "scipath",
-    "setuptools>=80.3.0",
+    "setuptools>=80.4.0",
 ]
 
 [build-system]
