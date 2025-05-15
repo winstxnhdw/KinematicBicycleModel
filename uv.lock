@@ -265,7 +265,7 @@ dev = [
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "ruff", specifier = ">=0.11.9" },
     { name = "scipath", git = "https://github.com/winstxnhdw/scipath" },
-    { name = "setuptools", specifier = ">=80.6.0" },
+    { name = "setuptools", specifier = ">=80.7.1" },
 ]
 
 [[package]]
@@ -836,11 +836,11 @@ wheels = [
 
 [[package]]
 name = "setuptools"
-version = "80.6.0"
+version = "80.7.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/bb/c6/4af6938e3c7321dab335c384d2ce4f604adc81099f124257de71599e301b/setuptools-80.6.0.tar.gz", hash = "sha256:79cf4c44dfd0b5fb890be2dccc3fbd405253ce3baedd2700b54880a75219ea25", size = 1319406, upload-time = "2025-05-14T19:50:17.167Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9e/8b/dc1773e8e5d07fd27c1632c45c1de856ac3dbf09c0147f782ca6d990cf15/setuptools-80.7.1.tar.gz", hash = "sha256:f6ffc5f0142b1bd8d0ca94ee91b30c0ca862ffd50826da1ea85258a06fd94552", size = 1319188, upload-time = "2025-05-15T02:41:00.955Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/57/28/46ef5c181f4aa677d0d773da770a8c111e29f21ad67ed1d1b8e414d3fa0b/setuptools-80.6.0-py3-none-any.whl", hash = "sha256:3f6586e9196c76f59857319fdca6571efd156a4b57d6069fd774145c4b5655a2", size = 1201126, upload-time = "2025-05-14T19:50:15.138Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/18/0e835c3a557dc5faffc8f91092f62fc337c1dab1066715842e7a4b318ec4/setuptools-80.7.1-py3-none-any.whl", hash = "sha256:ca5cc1069b85dc23070a6628e6bcecb3292acac802399c7f8edc0100619f9009", size = 1200776, upload-time = "2025-05-15T02:40:58.887Z" },
 ]
 
 [[package]]
