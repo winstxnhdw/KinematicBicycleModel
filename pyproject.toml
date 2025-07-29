@@ -23,7 +23,15 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["kbm"]
-ext-modules = [{ name = "kbm.model", sources = ["kbm/model.pyx"], extra-compile-args = ["-O3"] }]
+
+[[tool.setuptools.ext-modules]]
+name = "kbm.model"
+sources = ["kbm/model.pyx"]
+extra-compile-args = [
+    "-O3",
+    "-ffast-math",
+    "-march=native",
+]
 
 [tool.uv]
 reinstall-package = ["scipath"]

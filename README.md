@@ -76,7 +76,7 @@ random_steer_values = (uniform(-3.14159, 3.14159) for _ in range(1000))
 
 
 def compute_state(steer: float):
-    return model.compute_state(x=0.0, y=0.0, yaw=0.0, steer=steer, velocity=0.0, acceleration=5.0)
+    return model.compute_state_nogil(x=0.0, y=0.0, yaw=0.0, steer=steer, velocity=0.0, acceleration=5.0)
 
 
 state_with_highest_angular_velocity = max(

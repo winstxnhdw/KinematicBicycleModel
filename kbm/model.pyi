@@ -29,9 +29,14 @@ class KinematicBicycleModel:
 
         Attributes
         ----------
-        wheelbase (float) : vehicle's wheelbase [m]
-        max_steer (float) : vehicle's steering limits [rad]
-        delta_time (float) : discrete time period [s]
+        wheelbase (float)
+            vehicle's wheelbase [m]
+
+        max_steer (float)
+            vehicle's steering limits [rad]
+
+        delta_time (float)
+            discrete time period [s]
         """
 
     def compute_state(
@@ -51,14 +56,67 @@ class KinematicBicycleModel:
 
         Parameters
         ----------
-        x (int) : vehicle's x-coordinate [m]
-        y (int) : vehicle's y-coordinate [m]
-        yaw (int) : vehicle's heading [rad]
-        steer (int) : vehicle's steering angle [rad]
-        velocity (int) : vehicle's velocity in the x-axis [m/s]
-        acceleration (int) : vehicle's accleration [m/s^2]
+        x (int)
+            vehicle's x-coordinate [m]
+
+        y (int)
+            vehicle's y-coordinate [m]
+
+        yaw (int)
+            vehicle's heading [rad]
+
+        steer (int)
+            vehicle's steering angle [rad]
+
+        velocity (int)
+            vehicle's velocity in the x-axis [m/s]
+
+        acceleration (int)
+            vehicle's accleration [m/s^2]
 
         Returns
         -------
-        vehicle_state (VehicleState) : updated vehicle state dictionary
+        vehicle_state (VehicleState)
+            updated vehicle state dictionary
+        """
+
+    def compute_state_nogil(
+        self,
+        *,
+        x: float,
+        y: float,
+        yaw: float,
+        steer: float,
+        velocity: float,
+        acceleration: float,
+    ) -> VehicleState:
+        """
+        Summary
+        -------
+        computes the vehicle's state using the kinematic bicycle model
+
+        Parameters
+        ----------
+        x (int)
+            vehicle's x-coordinate [m]
+
+        y (int)
+            vehicle's y-coordinate [m]
+
+        yaw (int)
+            vehicle's heading [rad]
+
+        steer (int)
+            vehicle's steering angle [rad]
+
+        velocity (int)
+            vehicle's velocity in the x-axis [m/s]
+
+        acceleration (int)
+            vehicle's accleration [m/s^2]
+
+        Returns
+        -------
+        vehicle_state (VehicleState)
+            updated vehicle state dictionary
         """
