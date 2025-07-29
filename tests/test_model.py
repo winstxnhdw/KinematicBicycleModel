@@ -2,7 +2,9 @@
 
 from math import radians
 
-from kbm import KinematicBicycleModel
+from pytest import raises
+
+from kbm import KinematicBicycleModel, NegativeValueError
 
 
 def almost_equal(a: float, b: float, tolerance: float = 1e-6) -> bool:
@@ -116,3 +118,8 @@ def test_steer(model: KinematicBicycleModel) -> None:
     assert state["steer"] == radians(30)
     assert state["velocity"] == 10.0
     assert state["angular_velocity"] == 2.309401076758503
+
+
+def test_negative_wheelbase() -> None:
+    with raises(NegativeValueError):
+        KinematicBicycleModel(wheelbase=0.0, max_steer=0.0)

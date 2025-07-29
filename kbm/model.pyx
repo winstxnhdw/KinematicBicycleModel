@@ -1,4 +1,4 @@
-# cython: language_level=3, cdivision=True, cdivision_warnings=True, cpow=True, auto_pickle=False, binding=False
+# cython: language_level=3, cdivision=True, cpow=True, auto_pickle=False, binding=False
 
 from libc.math cimport atan2, cos, sin, tan
 from kbm.exceptions import NegativeValueError
