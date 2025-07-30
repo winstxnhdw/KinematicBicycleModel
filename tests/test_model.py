@@ -22,6 +22,17 @@ def test_zero_state(model: KinematicBicycleModel) -> None:
     assert state["angular_velocity"] == 0.0
 
 
+def test_zero_state_nogil(model: KinematicBicycleModel) -> None:
+    state = model.compute_state_nogil(x=0.0, y=0.0, yaw=0.0, steer=0.0, velocity=0.0, acceleration=0.0)
+
+    assert state["x"] == 0.0
+    assert state["y"] == 0.0
+    assert state["yaw"] == 0.0
+    assert state["steer"] == 0.0
+    assert state["velocity"] == 0.0
+    assert state["angular_velocity"] == 0.0
+
+
 def test_velocity_x(model: KinematicBicycleModel) -> None:
     state = model.compute_state(x=0.0, y=0.0, yaw=0.0, steer=0.0, velocity=10.0, acceleration=0.0)
 
