@@ -1,11 +1,4 @@
 {
 	"extends": ["github>winstxnhdw/renovate"],
-	"separateMinorPatch": true,
-	"packageRules": [
-		{
-			"matchDepTypes": ["requires-python"],
-			"matchUpdateTypes": ["major", "minor"],
-			"enabled": false
-		}
-	]
+	"ignoreDeps": ["python", "pytest"]
 }
