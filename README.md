@@ -1,7 +1,7 @@
 # Kinematic Bicycle Model
 
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
-[![python](https://img.shields.io/badge/python-3.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-blue)](https://www.python.org/)
+[![python](https://img.shields.io/badge/python-3.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13%20|%203.14-blue)](https://www.python.org/)
 ![main.yml](https://github.com/winstxnhdw/KinematicBicycleModel/actions/workflows/main.yml/badge.svg)
 ![formatter.yml](https://github.com/winstxnhdw/KinematicBicycleModel/actions/workflows/formatter.yml/badge.svg)
 
