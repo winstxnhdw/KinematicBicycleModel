@@ -9,7 +9,7 @@ requires-python = ">=3.8"
 dev = [
     "cython>=3.2.1",
     "matplotlib<=3.10.7",
-    "nodejs-wheel-binaries>=22.20.0",
+    "nodejs-wheel-binaries>=24.11.1",
     "pyright>=1.1.407",
     "pytest>=8.3.5",
     "ruff>=0.14.5",
