@@ -13,7 +13,7 @@ dev = [
     "pyright>=1.1.408",
     "pytest>=8.3.5",
     "ruff>=0.14.14",
-    "scipath; python_version >= '3.10'",
+    "scipath; python_version >= '3.9'",
 ]
 
 [build-system]
@@ -26,7 +26,7 @@ packages = ["kbm"]
 [[tool.setuptools.ext-modules]]
 name = "kbm.model"
 sources = ["kbm/model.pyx"]
-extra-compile-args = ["-O3", "-ffast-math", "-march=native"]
+extra-compile-args = ["-ffast-math", "-march=native"]
 
 [tool.uv]
 reinstall-package = ["scipath"]
