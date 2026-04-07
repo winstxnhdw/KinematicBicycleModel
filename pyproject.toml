@@ -22,11 +22,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["kbm"]
-
-[[tool.setuptools.ext-modules]]
-name = "kbm.model"
-sources = ["kbm/model.pyx"]
-extra-compile-args = ["-ffast-math", "-march=native"]
+ext-modules = [
+    { name = "kbm.model", sources = ["kbm/model.pyx"], extra-compile-args = ["-ffast-math", "-march=native"] },
+]
 
 [tool.uv]
 reinstall-package = ["scipath"]
@@ -43,8 +41,15 @@ select = ["ALL"]
 ignore = ["D", "INP001", "PYI001", "PYI021", "PLC0414", "PT013"]
 
 [tool.pyright]
-include = ["kbm"]
-exclude = ["animate.py", "libs", ".venv"]
 typeCheckingMode = "strict"
 reportUnknownVariableType = false
 reportMissingTypeStubs = false
+exclude = [
+    "**/.*",
+    "**/.venv",
+    "**/__pycache__",
+    "**/gxhash-*",
+    "**/node_modules",
+    "libs",
+    "animate.py",
+]
