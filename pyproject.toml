@@ -10,9 +10,9 @@ dev = [
     "cython>=3.2.5",
     "matplotlib<=3.10.9",
     "nodejs-wheel-binaries>=24.16.0",
-    "pyright>=1.1.409",
+    "pyright>=1.1.410",
     "pytest>=8.3.5",
-    "ruff>=0.15.15",
+    "ruff>=0.15.16",
     "scipath; python_version >= '3.9'",
 ]
 
