@@ -2052,7 +2052,7 @@ wheels = [
 [[package]]
 name = "scipath"
 version = "0.1.0"
-source = { git = "https://github.com/winstxnhdw/scipath#9df615e6ec4149d53893b899fe9975ae56129d4e" }
+source = { git = "https://github.com/winstxnhdw/scipath#6547949d96a941b804e8abf30c3a6d4833cc4700" }
 dependencies = [
     { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
