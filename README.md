@@ -48,14 +48,7 @@ The model is written entirely in [Cython](https://cython.org), completely typesa
 from kbm import KinematicBicycleModel
 
 model = KinematicBicycleModel(wheelbase=2.96, max_steer=0.57596, delta_time=0.05)
-state = model.compute_state(
-    x=0.0,
-    y=0.0,
-    yaw=0.0,
-    steer=0.0,
-    velocity=0.0,
-    acceleration=5.0
-)
+state = model.compute_state(x=0.0, y=0.0, yaw=0.0, steer=0.0, velocity=0.0, acceleration=5.0)
 
 print(f"The vehicle is at ({state['x']}, {state['y']})")
 print(f"The vehicle is facing {state['yaw']} rad")
@@ -84,7 +77,6 @@ state_with_highest_angular_velocity = max(
     ThreadPoolExecutor().map(compute_state, random_steer_values),
     key=lambda state: state["angular_velocity"],
 )
-
 ```
 
 ## Limitations
