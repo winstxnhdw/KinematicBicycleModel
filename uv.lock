@@ -735,7 +735,7 @@ dev = [
     { name = "nodejs-wheel-binaries", specifier = ">=24.19.0" },
     { name = "pyright", specifier = ">=1.1.411" },
     { name = "pytest", specifier = ">=8.3.5" },
-    { name = "ruff", specifier = ">=0.16.4" },
+    { name = "ruff", specifier = ">=0.16.6" },
     { name = "scipath", marker = "python_full_version >= '3.9'", git = "https://github.com/winstxnhdw/scipath" },
 ]
 
