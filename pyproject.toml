@@ -7,12 +7,12 @@ requires-python = ">=3.8"
 
 [dependency-groups]
 dev = [
-    "cython>=3.2.9",
-    "matplotlib<=3.11.1",
+    "cython>=3.3.0",
+    "matplotlib<=3.11.2",
     "nodejs-wheel-binaries>=24.19.0",
-    "pyright>=1.1.411",
+    "pyright>=1.1.414",
     "pytest>=8.3.5",
-    "ruff>=0.16.6",
+    "ruff>=0.16.7",
     "scipath; python_version >= '3.9'",
 ]
 
